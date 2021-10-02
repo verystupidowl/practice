@@ -1,7 +1,14 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
 public interface Consts {
-    public final String da = "Выберите, чего желаете";
-    public final String net = "Ну и иди отсюда";
-    public final String test = "Test";
+    String da = "Выберите пункт из меню";
+    String net = "Ну и иди отсюда";
+    String test = "/start";
+    String help = "Я помогу тебе найти текст любой песни с сайта https://genius.com\n\nСоздатель бота: @verystupidowl";
+    String SongExample = "Введите исполнителя и название песни на английском\nПример: Xxxtentacion jocelyn flores";
+    String rules = "Программист, создавший меня немного глупый, поэтому я обладаю очень ограниченным функционалом\n" +
+            "Я работаю только с английскими названиями\n(Не написанные транслитом, а именно на английском языке) " +
+            "Даже у русских песен. И без точек\nПример: \nЧтобы получить текст песни ЛСП - Монетка, нужно будет написать lsp coin\n" +
+            "sted.d записки на теле - stedd notes on the body и тд\n" +
+            "Регистр букв неважен\nТакже бывает, что песню находит не с первого раза. В таком случае стоит повторить";
 }

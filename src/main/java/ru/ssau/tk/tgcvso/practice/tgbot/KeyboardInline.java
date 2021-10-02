@@ -30,7 +30,7 @@ public class KeyboardInline {
 
         InlineKeyboardButton button3 = new InlineKeyboardButton();
 
-        button3.setText("fkn");
+        button3.setText("Перезапустить бота\n(Для разработчиков)");
         button3.setCallbackData(Consts.test);
         rowInline2.add(button3);
         rowsInline.add(rowInline2);
