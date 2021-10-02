@@ -21,8 +21,13 @@ public class GetFromURL {
                     .get();
             Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
             for (Element element : lyrics.select("*")) {
-                text = element.text();
+                text = element.text(); //TODO:решить ошибку с безуспешным поиском текста
                 break;
+            }
+            if (text.equals("Не найдено")) {
+                System.out.println("Безуспешно");
+            } else{
+                System.out.println("Успешно");
             }
         } catch(HttpStatusException e){
             e.printStackTrace();
