@@ -19,7 +19,7 @@ public class GetFromURL {
             Document doc = Jsoup.connect("https://genius.com/" + newArtistName.toLowerCase(Locale.ROOT) + "-lyrics/")
                     .referrer("http://www.google.com")
                     .get();
-            Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics");
+            Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
             for (Element element : lyrics.select("*")) {
                 text = element.text();
                 break;

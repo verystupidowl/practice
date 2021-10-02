@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Bot extends TelegramLongPollingBot {
     private final String BOT_NAME = "verystupidowl_bot";
     private final String BOT_TOKEN = "2036819241:AAHR9h1aGMwEPjEMSzljgNuv8HwqVDRpmrQ";
-    private String songName = "nul";
+    private String songName = "nul"; //TODO: Добавить переводчик, привязанный к гуглу
     private String ArtistName = "nul";
 
     @SneakyThrows
