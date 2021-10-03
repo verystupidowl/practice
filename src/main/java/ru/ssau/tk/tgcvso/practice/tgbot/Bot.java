@@ -73,7 +73,7 @@ public class Bot extends TelegramLongPollingBot {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(message + userFirstName);
+                    LogsProcessing.logsProcessing(userId, message);
                     break;
                 }
                 case "Найти текст песни": {
@@ -106,7 +106,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     String text = GetFromURL.getFromUR(message);
-                    System.out.println(userId + '\t' + message);
+                    LogsProcessing.logsProcessing(userId, message);
                     if (text.length() > 5000) {
                         String newText = text.substring(5000);
                         String newText2 = text.substring(5000, text.length());

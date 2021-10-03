@@ -30,10 +30,10 @@ public class GetFromURL {
                 }
             }
             if (text.equals("Не найдено")) {
-                System.out.println("Безуспешно");
+                LogsProcessing.logsProcessing("Безуспешно: ");
                 text = "Сервер не отвечает, повторите попытку";
             } else{
-                System.out.println("Успешно");
+                LogsProcessing.logsProcessing("Успешно: ");
             }
         } catch(HttpStatusException e){
             e.printStackTrace();
