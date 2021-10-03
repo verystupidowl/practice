@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class GetFromURL {
@@ -15,27 +16,24 @@ public class GetFromURL {
         String text = "Не найдено";
         String newArtistName = artistName.replace(' ', '-');
         //Document doc = Jsoup.connect("https://genius.com/Pyrokinesis-cigarette-without-button-lyrics/")
+
         try {
-            Document doc = Jsoup.connect("https://genius.com/" + newArtistName.toLowerCase(Locale.ROOT) + "-lyrics/")
-                    .userAgent("Chrome/81.0.4044.138")
-                    .referrer("http://www.google.com")
-                    .get();
-            Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
-            for (Element element : lyrics.select("*")) {
-                text = element.text(); //TODO:решить ошибку с безуспешным поиском текста
-                if (text.equals("Не найдено")) {
-                } else {
+            while (text.equals("Не найдено")) {
+                Document doc = Jsoup.connect("https://genius.com/" + newArtistName.toLowerCase(Locale.ROOT) + "-lyrics/")
+                        .userAgent("Chrome/81.0.4044.138")
+                        .referrer("http://www.google.com")
+                        .get();
+                Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
+
+                for (Element element : lyrics.select("*")) {
+                    text = element.text();
                     break;
                 }
             }
-            if (text.equals("Не найдено")) {
-                LogsProcessing.logsProcessing("Безуспешно: ");
-                text = "Сервер не отвечает, повторите попытку";
-            } else {
-                LogsProcessing.logsProcessing("Успешно: ");
-            }
+            LogsProcessing.logsProcessing("Успешно: ");
         } catch (HttpStatusException e) {
             e.printStackTrace();
+            LogsProcessing.logsProcessing("Неправильно введено название");
             return text;
         } finally {
             String newText = text.replace('[', '\n');
