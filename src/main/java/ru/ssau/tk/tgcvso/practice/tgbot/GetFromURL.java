@@ -6,12 +6,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+
 import java.util.Locale;
 
 public class GetFromURL {
 
-    public static String getFromUR(String artistName) throws IOException {
+    public static String getFromUR(String artistName) {
         String text = "Не найдено";
         String newArtistName = artistName.replace(' ', '-');
         //Document doc = Jsoup.connect("https://genius.com/Pyrokinesis-cigarette-without-button-lyrics/")
@@ -23,23 +23,21 @@ public class GetFromURL {
             Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
             for (Element element : lyrics.select("*")) {
                 text = element.text(); //TODO:решить ошибку с безуспешным поиском текста
-                if(text.equals("Не найдено")){
-
-                }else{
+                if (text.equals("Не найдено")) {
+                } else {
                     break;
                 }
             }
             if (text.equals("Не найдено")) {
                 LogsProcessing.logsProcessing("Безуспешно: ");
                 text = "Сервер не отвечает, повторите попытку";
-            } else{
+            } else {
                 LogsProcessing.logsProcessing("Успешно: ");
             }
-        } catch(HttpStatusException e){
+        } catch (HttpStatusException e) {
             e.printStackTrace();
             return text;
-        }
-        finally {
+        } finally {
             String newText = text.replace('[', '\n');
             String newText1 = newText.replace(']', '\n');
             return newText1.trim();

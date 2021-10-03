@@ -11,7 +11,7 @@ import java.util.List;
 public class Keyboard {
     public synchronized static void setButtons(SendMessage sendMessage) {
 
-        if (sendMessage.getText().equals(Consts.help) || sendMessage.getText().equals(Consts.RULES)) {
+        if (sendMessage.getText().equals(Consts.HELP) || sendMessage.getText().equals(Consts.RULES)) {
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
             replyKeyboardMarkup.setSelective(true);

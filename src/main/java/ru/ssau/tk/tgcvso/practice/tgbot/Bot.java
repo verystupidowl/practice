@@ -13,9 +13,7 @@ import java.io.IOException;
 
 
 public class Bot extends TelegramLongPollingBot {
-    private final String BOT_NAME = "verystupidowl_bot";
-    private String songName = "nul"; //TODO: Добавить переводчик, привязанный к гуглу
-    private String ArtistName = "nul";
+//TODO: Добавить переводчик, привязанный к гуглу
 
     @SneakyThrows
     @Override
@@ -52,7 +50,7 @@ public class Bot extends TelegramLongPollingBot {
                 case "Помощь": {
                     SendMessage sm = new SendMessage();
                     sm.setChatId(chatId);
-                    sm.setText(Consts.help);
+                    sm.setText(Consts.HELP);
                     Keyboard.setButtons(sm);
                     try {
                         execute(sm);
@@ -142,7 +140,7 @@ public class Bot extends TelegramLongPollingBot {
             sendMessage.setChatId(chatId);
             String textMessage = update.getCallbackQuery().getData();
             sendMessage.setText(textMessage);
-            if (sendMessage.getText().equals(Consts.POSITIVE)) {
+            if (sendMessage.getText().equals(Consts.POSITIVE_ANSWER)) {
                 Keyboard.setButtons(sendMessage);
             }
             try {
@@ -158,7 +156,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return BOT_NAME;
+        return "verystupidowl_bot";
     }
 
     @SneakyThrows
@@ -171,11 +169,9 @@ public class Bot extends TelegramLongPollingBot {
             botToken.insert(0, s);
             while ((s = br.readLine()) != null)
                 botToken.insert(botToken.length() + 1, s);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         return botToken.toString();
     }
 }
-
-

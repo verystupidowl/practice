@@ -1,10 +1,10 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
 public final class Consts {
-    static String POSITIVE = "Выберите пункт из меню";
-    static String NEGATIVE = "Ну и иди отсюда";
-    static String test = "/start";
-    static String help = "Я помогу тебе найти текст любой песни с сайта https://genius.com\n\nСоздатель бота: @verystupidowl";
+    static String POSITIVE_ANSWER = "Выберите пункт из меню";
+    static String NEGATIVE_ANSWER = "Ну и иди отсюда";
+    static String TEST = "/start";
+    static String HELP = "Я помогу тебе найти текст любой песни с сайта https://genius.com\n\nСоздатель бота: @verystupidowl";
     static String SONG_EXAMPLE = "Введите исполнителя и название песни на английском\nПример: Xxxtentacion jocelyn flores";
     static String RULES = "Программист, создавший меня немного глупый, поэтому я обладаю очень ограниченным функционалом\n" +
             "Я работаю только с английскими названиями\n(Не написанные транслитом, а именно на английском языке) " +

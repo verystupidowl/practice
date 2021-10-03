@@ -15,11 +15,11 @@ public class KeyboardInline {
 
         InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Да");
-        button1.setCallbackData(Consts.POSITIVE);
+        button1.setCallbackData(Consts.POSITIVE_ANSWER);
 
         InlineKeyboardButton button2 = new InlineKeyboardButton();
         button2.setText("Нет");
-        button2.setCallbackData(Consts.NEGATIVE);
+        button2.setCallbackData(Consts.NEGATIVE_ANSWER);
 
         rowInline.add(button1);
         rowInline.add(button2);
@@ -31,7 +31,7 @@ public class KeyboardInline {
         InlineKeyboardButton button3 = new InlineKeyboardButton();
 
         button3.setText("Перезапустить бота\n(Для разработчиков)");
-        button3.setCallbackData(Consts.test);
+        button3.setCallbackData(Consts.TEST);
         rowInline2.add(button3);
         rowsInline.add(rowInline2);
 
