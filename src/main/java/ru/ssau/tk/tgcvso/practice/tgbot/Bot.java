@@ -6,13 +6,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 
 public class Bot extends TelegramLongPollingBot {
     private final String BOT_NAME = "verystupidowl_bot";
-    private final String BOT_TOKEN = "2036819241:AAHR9h1aGMwEPjEMSzljgNuv8HwqVDRpmrQ";
     private String songName = "nul"; //TODO: Добавить переводчик, привязанный к гуглу
     private String ArtistName = "nul";
 
@@ -39,14 +40,13 @@ public class Bot extends TelegramLongPollingBot {
                 case "Правила": {
                     SendMessage sm = new SendMessage();
                     sm.setChatId(chatId);
-                    sm.setText(Consts.rules);
+                    sm.setText(Consts.RULES);
                     Keyboard.setButtons(sm);
                     try {
                         execute(sm);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(message);
                     break;
                 }
                 case "Помощь": {
@@ -59,7 +59,6 @@ public class Bot extends TelegramLongPollingBot {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(message);
                     break;
                 }
                 case "/start": {
@@ -81,7 +80,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sm = new SendMessage();
                     sm.enableMarkdown(true);
                     sm.setChatId(chatId);
-                    sm.setText(Consts.SongExample);
+                    sm.setText(Consts.SONG_EXAMPLE);
                     Keyboard.setButtons(sm);
                     try {
                         execute(sm);
@@ -143,7 +142,7 @@ public class Bot extends TelegramLongPollingBot {
             sendMessage.setChatId(chatId);
             String textMessage = update.getCallbackQuery().getData();
             sendMessage.setText(textMessage);
-            if (sendMessage.getText().equals(Consts.da)) {
+            if (sendMessage.getText().equals(Consts.POSITIVE)) {
                 Keyboard.setButtons(sendMessage);
             }
             try {
@@ -157,15 +156,25 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-
     @Override
     public String getBotUsername() {
         return BOT_NAME;
     }
 
-    @Override
+    @SneakyThrows
     public String getBotToken() {
-        return BOT_TOKEN;
+        File file = new File("src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/BotToken/BotToken.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuilder botToken = new StringBuilder();
+        try {
+            String s = br.readLine();
+            botToken.insert(0, s);
+            while ((s = br.readLine()) != null)
+                botToken.insert(botToken.length() + 1, s);
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        return botToken.toString();
     }
 }
 

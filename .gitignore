@@ -21,7 +21,9 @@
 *.iml
 .idea
 target
-BotToken.txt
+
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+/src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/BotToken/

@@ -11,7 +11,7 @@ import java.util.List;
 public class Keyboard {
     public synchronized static void setButtons(SendMessage sendMessage) {
 
-        if (sendMessage.getText().equals(Consts.help) || sendMessage.getText().equals(Consts.rules)) {
+        if (sendMessage.getText().equals(Consts.help) || sendMessage.getText().equals(Consts.RULES)) {
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
             replyKeyboardMarkup.setSelective(true);
@@ -22,7 +22,7 @@ public class Keyboard {
             keyboardRow.add(new KeyboardButton("Вернуться в меню"));
             keyboard.add(keyboardRow);
             replyKeyboardMarkup.setKeyboard(keyboard);
-        } else if (sendMessage.getText().equals(Consts.SongExample)) {
+        } else if (sendMessage.getText().equals(Consts.SONG_EXAMPLE)) {
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
             replyKeyboardMarkup.setSelective(true);

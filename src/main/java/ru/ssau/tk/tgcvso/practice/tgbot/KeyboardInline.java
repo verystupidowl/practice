@@ -15,11 +15,11 @@ public class KeyboardInline {
 
         InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Да");
-        button1.setCallbackData(Consts.da);
+        button1.setCallbackData(Consts.POSITIVE);
 
         InlineKeyboardButton button2 = new InlineKeyboardButton();
         button2.setText("Нет");
-        button2.setCallbackData(Consts.net);
+        button2.setCallbackData(Consts.NEGATIVE);
 
         rowInline.add(button1);
         rowInline.add(button2);

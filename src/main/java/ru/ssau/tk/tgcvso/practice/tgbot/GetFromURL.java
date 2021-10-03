@@ -17,15 +17,21 @@ public class GetFromURL {
         //Document doc = Jsoup.connect("https://genius.com/Pyrokinesis-cigarette-without-button-lyrics/")
         try {
             Document doc = Jsoup.connect("https://genius.com/" + newArtistName.toLowerCase(Locale.ROOT) + "-lyrics/")
+                    .userAgent("Chrome/81.0.4044.138")
                     .referrer("http://www.google.com")
                     .get();
             Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
             for (Element element : lyrics.select("*")) {
                 text = element.text(); //TODO:решить ошибку с безуспешным поиском текста
-                break;
+                if(text.equals("Не найдено")){
+
+                }else{
+                    break;
+                }
             }
             if (text.equals("Не найдено")) {
                 System.out.println("Безуспешно");
+                text = "Сервер не отвечает, повторите попытку";
             } else{
                 System.out.println("Успешно");
             }
