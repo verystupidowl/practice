@@ -27,49 +27,49 @@ public class Bot extends TelegramLongPollingBot {
             String userId = update.getMessage().getChat().getUserName();
             switch (message) {
                 case "Привет": {
-                    SendMessage sm = new SendMessage();
-                    sm.setChatId(chatId);
-                    sm.setText("Ну привет, " + userFirstName);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setChatId(chatId);
+                    sendMessage.setText("Ну привет, " + userFirstName);
                     try {
-                        execute(sm);
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                     break;
                 }
                 case "Правила": {
-                    SendMessage sm = new SendMessage();
-                    sm.setChatId(chatId);
-                    sm.setText(Consts.RULES);
-                    Keyboard.setButtons(sm);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setChatId(chatId);
+                    sendMessage.setText(Consts.RULES);
+                    Keyboard.setButtons(sendMessage);
                     try {
-                        execute(sm);
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                     break;
                 }
                 case "Помощь": {
-                    SendMessage sm = new SendMessage();
-                    sm.setChatId(chatId);
-                    sm.setText(Consts.HELP);
-                    Keyboard.setButtons(sm);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setChatId(chatId);
+                    sendMessage.setText(Consts.HELP);
+                    Keyboard.setButtons(sendMessage);
                     try {
-                        execute(sm);
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                     break;
                 }
                 case "/start": {
-                    SendMessage sm = new SendMessage();
-                    sm.enableMarkdown(true);
-                    sm.setChatId(chatId);
-                    sm.setText("Привет, " + userFirstName + "!\nЯ бот, который поможет тебе найти текст песни.");
-                    SendMessage sm2 = KeyboardInline.sendInlineKeyBoardMessage(chatId);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.enableMarkdown(true);
+                    sendMessage.setChatId(chatId);
+                    sendMessage.setText("Привет, " + userFirstName + "!\nЯ бот, который поможет тебе найти текст песни.");
+                    SendMessage sendMessage1 = KeyboardInline.sendInlineKeyBoardMessage(chatId);
                     try {
-                        execute(sm);
-                        execute(sm2);
+                        execute(sendMessage);
+                        execute(sendMessage1);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -77,13 +77,13 @@ public class Bot extends TelegramLongPollingBot {
                     break;
                 }
                 case "Найти текст песни": {
-                    SendMessage sm = new SendMessage();
-                    sm.enableMarkdown(true);
-                    sm.setChatId(chatId);
-                    sm.setText(Consts.SONG_EXAMPLE);
-                    Keyboard.setButtons(sm);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.enableMarkdown(true);
+                    sendMessage.setChatId(chatId);
+                    sendMessage.setText(Consts.SONG_EXAMPLE);
+                    Keyboard.setButtons(sendMessage);
                     try {
-                        execute(sm);
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -108,16 +108,25 @@ public class Bot extends TelegramLongPollingBot {
                     if (message.indexOf('*') != -1) {
                         StringBuilder stringBuilder = new StringBuilder();
                         String text = GetTopSongs.getTopSongs(message.toLowerCase(Locale.ROOT));
-                        stringBuilder.insert(0, message);
-                        stringBuilder.insert(stringBuilder.length(), text);
-                        sendMessage.setText(stringBuilder.toString());
-                        Keyboard.setButtons(sendMessage);
                         LogsProcessing.logsProcessing(userId, message);
-                        sendMessage.setText("Самые популярные песни исполнителя:\n");
-                        try {
-                            execute(sendMessage);
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
+                        if (text.equals(Consts.DEFAULT_TEXT)) {
+                            try {
+                                sendMessage.setText(text);
+                                execute(sendMessage);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            stringBuilder.insert(0, message);
+                            stringBuilder.insert(stringBuilder.length(), text);
+                            sendMessage.setText(stringBuilder.toString());
+                            Keyboard.setButtons(sendMessage);
+                            sendMessage.setText("Самые популярные песни исполнителя:\nНажмите, чтобы открыть текст");
+                            try {
+                                execute(sendMessage);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
                         }
                     } else {
                         String text = GetFromURL.getFromUR(message);

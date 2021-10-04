@@ -2,11 +2,13 @@ package ru.ssau.tk.tgcvso.practice.tgbot;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 public class LogsProcessing {
     public static void logsProcessing(String userId, String message) {
         try (FileWriter writer = new FileWriter("src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/logs/logs.log", true)) {
-            writer.write(userId + '\t' + message);
+            Date date = new Date();
+            writer.write(userId + '\t' + message + '\t' + date);
             writer.write("\n\n");
             writer.flush();
         } catch (IOException e) {

@@ -6,15 +6,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class GetTopSongs {
     public static String getTopSongs(String artistName) {
-        String text = Consts.DEFAUL_TEXT;
+        String text = Consts.DEFAULT_TEXT;
         int i = 1;
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            while (text.equals(Consts.DEFAUL_TEXT)) {
+            while (text.equals(Consts.DEFAULT_TEXT)) {
                 Document doc = Jsoup.connect("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT))
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
@@ -28,15 +29,15 @@ public class GetTopSongs {
                 }
                 i++;
             }
-            if (!text.equals(Consts.DEFAUL_TEXT)) {
-                LogsProcessing.logsProcessing("Успешно", i);
-            }
+            LogsProcessing.logsProcessing("Успешно", i);
         } catch (HttpStatusException e) {
             e.printStackTrace();
             LogsProcessing.logsProcessing("Неверно введено название", i);
-        } finally {
-            System.out.println(stringBuilder.toString());
-            return GetEnglishNames.getEnglishNames(stringBuilder.toString().toLowerCase(Locale.ROOT));
+            return Consts.DEFAULT_TEXT;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        System.out.println(stringBuilder);
+        return GetEnglishNames.getEnglishNames(stringBuilder.toString().toLowerCase(Locale.ROOT));
     }
 }
