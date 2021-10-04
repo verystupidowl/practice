@@ -1,7 +1,6 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
 import lombok.SneakyThrows;
-import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -11,11 +10,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.Key;
+import java.util.Locale;
 
 
 public class Bot extends TelegramLongPollingBot {
-//TODO: Добавить переводчик, привязанный к гуглу
-
+    //TODO: Добавить переводчик, привязанный к гуглу
+    //TODO: Добавить донат))0)
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
@@ -89,13 +90,13 @@ public class Bot extends TelegramLongPollingBot {
                     break;
                 }
                 case "Вернуться в меню": {
-                    SendMessage sm = new SendMessage();
-                    sm.enableMarkdown(true);
-                    sm.setChatId(chatId);
-                    sm.setText("Привет!\nЯ бот, который поможет тебе найти текст песни.");
-                    Keyboard.setButtons(sm);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.enableMarkdown(true);
+                    sendMessage.setChatId(chatId);
+                    sendMessage.setText("Привет!\nЯ бот, который поможет тебе найти текст песни.");
+                    Keyboard.setButtons(sendMessage);
                     try {
-                        execute(sm);
+                        execute(sendMessage);
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
@@ -104,34 +105,77 @@ public class Bot extends TelegramLongPollingBot {
                 default: {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
-                    String text = GetFromURL.getFromUR(message);
-                    LogsProcessing.logsProcessing(userId, message);
-                    if (text.length() > 5000) {
-                        String newText = text.substring(5000);
-                        String newText2 = text.substring(5000, text.length());
-                        SendMessage sendMessage1 = new SendMessage();
-                        sendMessage.setText(newText);
-                        sendMessage1.setText(newText2);
-                        sendMessage.setChatId(chatId);
-                        sendMessage1.setChatId(chatId);
+                    if (message.indexOf('*') != -1) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String text = GetTopSongs.getTopSongs(message.toLowerCase(Locale.ROOT));
+                        stringBuilder.insert(0, message);
+                        stringBuilder.insert(stringBuilder.length(), text);
+                        sendMessage.setText(stringBuilder.toString());
+                        Keyboard.setButtons(sendMessage);
+                        LogsProcessing.logsProcessing(userId, message);
+                        sendMessage.setText("Самые популярные песни исполнителя:\n");
                         try {
                             execute(sendMessage);
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            execute(sendMessage1);
                         } catch (TelegramApiException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        sendMessage.setText(text);
-                        try {
-                            execute(sendMessage);
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
+                        String text = GetFromURL.getFromUR(message);
+                        LogsProcessing.logsProcessing(userId, message);
+                        if (text.length() > 4000 && text.length() < 8000) {
+                            String newText = text.substring(0, 4000);
+                            String newText2 = text.substring(4000);
+                            SendMessage sendMessage1 = new SendMessage();
+                            sendMessage.setText(newText);
+                            sendMessage1.setText(newText2);
+                            sendMessage.setChatId(chatId);
+                            sendMessage1.setChatId(chatId);
+                            try {
+                                execute(sendMessage);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                execute(sendMessage1);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (text.length() > 8000) {
+                            String newText = text.substring(0, 4000);
+                            String newText2 = text.substring(4000, 8000);
+                            String newText3 = text.substring(8000);
+                            SendMessage sendMessage1 = new SendMessage();
+                            SendMessage sendMessage2 = new SendMessage();
+                            sendMessage.setText(newText);
+                            sendMessage1.setText(newText2);
+                            sendMessage2.setText(newText3);
+                            sendMessage.setChatId(chatId);
+                            sendMessage1.setChatId(chatId);
+                            sendMessage2.setChatId(chatId);
+                            try {
+                                execute(sendMessage);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                execute(sendMessage1);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                execute(sendMessage2);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            sendMessage.setText(text);
+                            try {
+                                execute(sendMessage);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
@@ -149,11 +193,8 @@ public class Bot extends TelegramLongPollingBot {
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
-
 
     @Override
     public String getBotUsername() {

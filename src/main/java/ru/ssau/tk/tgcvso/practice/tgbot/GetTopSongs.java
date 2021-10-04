@@ -6,44 +6,37 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
 import java.util.Locale;
 
-public class GetFromURL {
-
-    public static String getFromUR(String songName) {
+public class GetTopSongs {
+    public static String getTopSongs(String artistName) {
         String text = Consts.DEFAUL_TEXT;
         int i = 1;
-        String newArtistName = songName.replace(' ', '-');
-        //Document doc = Jsoup.connect("https://genius.com/Pyrokinesis-cigarette-without-button-lyrics/")
-
+        StringBuilder stringBuilder = new StringBuilder();
         try {
             while (text.equals(Consts.DEFAUL_TEXT)) {
-                Document doc = Jsoup.connect("https://genius.com/" + newArtistName.toLowerCase(Locale.ROOT) + "-lyrics/")
+                Document doc = Jsoup.connect("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT))
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
+                Elements lyrics = doc.getElementsByAttributeValue("class", "mini_card-title");
 
                 for (Element element : lyrics.select("*")) {
                     text = element.text();
-                    break;
+                    stringBuilder.insert(stringBuilder.length(), text);
+                    stringBuilder.insert(stringBuilder.length(), "\n");
                 }
                 i++;
             }
             if (!text.equals(Consts.DEFAUL_TEXT)) {
                 LogsProcessing.logsProcessing("Успешно", i);
             }
-
         } catch (HttpStatusException e) {
             e.printStackTrace();
             LogsProcessing.logsProcessing("Неверно введено название", i);
-            return text;
         } finally {
-            String newText = text.replace('[', '\n');
-            String newText1 = newText.replace(']', '\n');
-            return newText1.trim();
+            System.out.println(stringBuilder.toString());
+            return GetEnglishNames.getEnglishNames(stringBuilder.toString().toLowerCase(Locale.ROOT));
         }
-
     }
 }
