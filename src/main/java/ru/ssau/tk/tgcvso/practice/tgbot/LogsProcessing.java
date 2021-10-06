@@ -12,7 +12,7 @@ public class LogsProcessing {
             writer.write("\n\n");
             writer.flush();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -22,7 +22,7 @@ public class LogsProcessing {
             writer.write('\n');
             writer.flush();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 

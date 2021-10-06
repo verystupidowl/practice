@@ -219,6 +219,7 @@ public class Bot extends TelegramLongPollingBot {
             botToken.insert(0, s);
             while ((s = br.readLine()) != null)
                 botToken.insert(botToken.length() + 1, s);
+            br.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

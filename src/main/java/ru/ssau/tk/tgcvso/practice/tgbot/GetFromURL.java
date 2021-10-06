@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Locale;
 
 public class GetFromURL {
@@ -15,12 +16,10 @@ public class GetFromURL {
     public static String getFromUR(String songName) {
         String text = Consts.DEFAULT_TEXT;
         int i = 1;
-        String newArtistName = songName.replace(' ', '-');
-        //Document doc = Jsoup.connect("https://genius.com/Pyrokinesis-cigarette-without-button-lyrics/")
 
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                Document doc = Jsoup.connect("https://genius.com/" + newArtistName.toLowerCase(Locale.ROOT) + "-lyrics/")
+                Document doc = Jsoup.connect("https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/")
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
@@ -40,6 +39,8 @@ public class GetFromURL {
             return text;
         } catch (IOException e) {
             e.printStackTrace();
+            LogsProcessing.logsProcessing("Сервер не отвечает", i);
+            return "Сервер не отвечает, повторите попытку";
         }
         String newText = text.replace('[', '\n');
         String newText1 = newText.replace(']', '\n');
