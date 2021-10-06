@@ -40,7 +40,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.RULES);
-                    Keyboard.setButtons(sendMessage);
+                    Keyboard.setRulesButtons(sendMessage);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -52,7 +52,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.HELP);
-                    Keyboard.setButtons(sendMessage);
+                    Keyboard.setRulesButtons(sendMessage);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -80,7 +80,7 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.SONG_EXAMPLE);
-                    Keyboard.setButtons(sendMessage);
+                    Keyboard.setRulesButtons(sendMessage);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -119,7 +119,7 @@ public class Bot extends TelegramLongPollingBot {
                             stringBuilder.insert(0, message);
                             stringBuilder.insert(stringBuilder.length(), text);
                             sendMessage.setText(stringBuilder.toString());
-                            Keyboard.setButtons(sendMessage);
+                            Keyboard.setSongsButtons(sendMessage);
                             sendMessage.setText("Самые популярные песни исполнителя:\nНажмите, чтобы открыть текст");
                             try {
                                 execute(sendMessage);
