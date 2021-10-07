@@ -13,11 +13,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.telegram</groupId>
-            <artifactId>telegrambots</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
@@ -38,10 +33,11 @@
             <artifactId>telegrambotsextensions</artifactId>
             <version>4.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.telegram</groupId>
-            <artifactId>telegrambots</artifactId>
-            <version>3.5</version>
+            <artifactId>telegrambots-meta</artifactId>
+            <version>4.1</version>
         </dependency>
 
         <dependency>
@@ -53,11 +49,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.32</version>
-        </dependency>
-        <dependency>
-            <groupId>org.telegram</groupId>
-            <artifactId>telegrambots-meta</artifactId>
-            <version>3.5</version>
         </dependency>
 
         <dependency>

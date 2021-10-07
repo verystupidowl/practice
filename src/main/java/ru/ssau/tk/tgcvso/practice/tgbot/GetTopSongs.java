@@ -36,6 +36,8 @@ public class GetTopSongs {
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
             e.printStackTrace();
+            LogsProcessing.logsProcessing("Сервер не отвечает", i);
+            return "Сервер не отвечает, повторите попытку";
         }
         System.out.println(stringBuilder);
         return GetEnglishNames.getEnglishNames(stringBuilder.toString().toLowerCase(Locale.ROOT));
