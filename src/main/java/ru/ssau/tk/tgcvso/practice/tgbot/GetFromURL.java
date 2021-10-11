@@ -13,7 +13,7 @@ import java.util.Locale;
 
 public class GetFromURL {
 
-    public static String getFromUR(String songName) {
+    public static String getFromURL(String songName) {
         String text = Consts.DEFAULT_TEXT;
         int i = 1;
 
@@ -34,7 +34,6 @@ public class GetFromURL {
             LogsProcessing.logsProcessing("Успешно", i);
 
         } catch (HttpStatusException e) {
-            e.printStackTrace();
             LogsProcessing.logsProcessing("Неверно введено название", i);
             return text;
         } catch (IOException e) {

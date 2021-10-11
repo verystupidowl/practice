@@ -128,7 +128,7 @@ public class Bot extends TelegramLongPollingBot {
                             }
                         }
                     } else {
-                        String text = GetFromURL.getFromUR(message);
+                        String text = GetFromURL.getFromURL(message);
                         LogsProcessing.logsProcessing(userId, message);
                         if (text.length() > 4000 && text.length() < 8000) {
                             String newText = text.substring(0, 4000);

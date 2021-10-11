@@ -31,7 +31,6 @@ public class GetTopSongs {
             }
             LogsProcessing.logsProcessing("Успешно", i);
         } catch (HttpStatusException e) {
-            e.printStackTrace();
             LogsProcessing.logsProcessing("Неверно введено название", i);
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
