@@ -106,23 +106,33 @@ public class Bot extends TelegramLongPollingBot {
                     if (message.indexOf('*') != -1) {
                         StringBuilder stringBuilder = new StringBuilder();
                         String text = GetTopSongs.getTopSongs(message.toLowerCase(Locale.ROOT));
-                        LogsProcessing.logsProcessing(userId, message);
-                        if (text.equals(Consts.DEFAULT_TEXT)) {
-                            try {
-                                sendMessage.setText(text);
-                                execute(sendMessage);
-                            } catch (TelegramApiException e) {
-                                e.printStackTrace();
+                        if(!text.equals(Consts.WITHOUT_SONGS)) {
+                            LogsProcessing.logsProcessing(userId, message);
+                            if (text.equals(Consts.DEFAULT_TEXT)) {
+                                try {
+                                    sendMessage.setText(text);
+                                    execute(sendMessage);
+                                } catch (TelegramApiException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                stringBuilder.insert(0, message);
+                                stringBuilder.insert(stringBuilder.length(), text);
+                                sendMessage.setText(stringBuilder.toString());
+                                Keyboard.setSongsButtons(sendMessage);
+                                sendMessage.setText("Самые популярные песни исполнителя:\nНажмите, чтобы открыть текст");
+                                try {
+                                    execute(sendMessage);
+                                } catch (TelegramApiException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } else {
-                            stringBuilder.insert(0, message);
-                            stringBuilder.insert(stringBuilder.length(), text);
-                            sendMessage.setText(stringBuilder.toString());
-                            Keyboard.setSongsButtons(sendMessage);
-                            sendMessage.setText("Самые популярные песни исполнителя:\nНажмите, чтобы открыть текст");
-                            try {
+                        }else{
+                            sendMessage.setText(text);
+                            Keyboard.setRulesButtons(sendMessage);
+                            try{
                                 execute(sendMessage);
-                            } catch (TelegramApiException e) {
+                            }catch (TelegramApiException e){
                                 e.printStackTrace();
                             }
                         }

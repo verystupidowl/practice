@@ -23,7 +23,6 @@ public class GetFromURL {
                         .referrer("http://www.google.com")
                         .get();
                 Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
-
                 for (Element element : lyrics.select("*")) {
                     text = element.text();
                     break;
@@ -31,7 +30,6 @@ public class GetFromURL {
                 i++;
             }
             LogsProcessing.logsProcessing("Успешно", i);
-
         } catch (HttpStatusException e) {
             LogsProcessing.logsProcessing("Неверно введено название", i);
             return text;
