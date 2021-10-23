@@ -8,7 +8,6 @@ import org.jsoup.select.Elements;
 
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.Locale;
 
 public class GetFromURL {

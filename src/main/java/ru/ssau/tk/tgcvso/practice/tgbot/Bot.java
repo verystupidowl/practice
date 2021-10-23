@@ -15,7 +15,6 @@ import java.util.Locale;
 
 public class Bot extends TelegramLongPollingBot {
     //TODO: Добавить переводчик, привязанный к гуглу
-    //TODO: Добавить донат))0)
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {

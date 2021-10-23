@@ -34,7 +34,7 @@ public class Keyboard {
         for (int i = 0; i < 4; i++) {
             j += k;
             stringBuilder.setLength(0);
-            while (c[j] != '\n') {
+            while (j < c.length && c[j] != '\n') {
                 stringBuilder.insert(stringBuilder.length(), c[j]);
                 j++;
             }
@@ -43,37 +43,49 @@ public class Keyboard {
             System.out.println(string[i]);
         }
         stringBuilder.setLength(0);
-        stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
-                .insert(stringBuilder.length(), ' ')
-                .insert(stringBuilder.length(), string[1]);
-        string[1] = stringBuilder.toString();
-        stringBuilder.setLength(0);
-        stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
-                .insert(stringBuilder.length(), ' ')
-                .insert(stringBuilder.length(), string[2]);
-        string[2] = stringBuilder.toString();
-        stringBuilder.setLength(0);
-        stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
-                .insert(stringBuilder.length(), ' ')
-                .insert(stringBuilder.length(), string[3]);
-        string[3] = stringBuilder.toString();
+        if(!string[1].isEmpty()) {
+            stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
+                    .insert(stringBuilder.length(), ' ')
+                    .insert(stringBuilder.length(), string[1]);
+            string[1] = stringBuilder.toString();
+            stringBuilder.setLength(0);
+            if (!string[2].isEmpty()) {
+                stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
+                        .insert(stringBuilder.length(), ' ')
+                        .insert(stringBuilder.length(), string[2]);
+                string[2] = stringBuilder.toString();
+                stringBuilder.setLength(0);
+                if (!string[3].isEmpty()) {
+                    stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
+                            .insert(stringBuilder.length(), ' ')
+                            .insert(stringBuilder.length(), string[3]);
+                    string[3] = stringBuilder.toString();
+                }
+            }
+        }
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardRow1 = new KeyboardRow();
-        keyboardRow1.add(new KeyboardButton(string[1]));
-        KeyboardRow keyboardRow2 = new KeyboardRow();
-        keyboardRow2.add(new KeyboardButton(string[2]));
-        KeyboardRow keyboardRow3 = new KeyboardRow();
-        keyboardRow3.add(new KeyboardButton(string[3]));
+        if(!string[1].isEmpty()) {
+            KeyboardRow keyboardRow1 = new KeyboardRow();
+            keyboardRow1.add(new KeyboardButton(string[1]));
+            keyboard.add(keyboardRow1);
+            if (!string[2].isEmpty()) {
+                KeyboardRow keyboardRow2 = new KeyboardRow();
+                keyboardRow2.add(new KeyboardButton(string[2]));
+                keyboard.add(keyboardRow2);
+                if (!string[3].isEmpty()) {
+                    KeyboardRow keyboardRow3 = new KeyboardRow();
+                    keyboardRow3.add(new KeyboardButton(string[3]));
+                    keyboard.add(keyboardRow3);
+                }
+            }
+        }
         KeyboardRow keyboardRow = new KeyboardRow();
         keyboardRow.add(new KeyboardButton("Вернуться в меню"));
-        keyboard.add(keyboardRow1);
-        keyboard.add(keyboardRow2);
-        keyboard.add(keyboardRow3);
         keyboard.add(keyboardRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
