@@ -4,6 +4,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 
@@ -15,7 +16,6 @@ public class GetFromURL {
     public static String getFromURL(String songName) {
         String text = Consts.DEFAULT_TEXT;
         int i = 1;
-        StringBuilder stringBuilder = new StringBuilder();
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
                 Document doc = Jsoup.connect("https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/")
@@ -23,11 +23,10 @@ public class GetFromURL {
                         .referrer("http://www.google.com")
                         .get();
                 Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
-                for (Element element : lyrics) { //TODO:Решить проблему со строками!!!
-                    text = element.text();
-                    //System.out.println(text);
-                    stringBuilder.insert(stringBuilder.length(), text);
-                    stringBuilder.insert(stringBuilder.length(), "\n");
+                for (Element element : lyrics) {
+                    text = lyrics.toString();
+                    text = cleanHTMLCode(text);
+                    System.out.println(text);
                 }
                 //System.out.println(stringBuilder);
                 i++;
@@ -41,9 +40,21 @@ public class GetFromURL {
             LogsProcessing.logsProcessing("Сервер не отвечает", i);
             return "Сервер не отвечает, повторите попытку";
         }
-        String newText = stringBuilder.toString().replace('[', '\n');
-        String newText1 = newText.replace(']', '\n');
-        return newText1.trim();
+        return text.trim();
 
+    }
+    public static String cleanHTMLCode(String bodyHtml) {
+
+        // get pretty printed html with preserved br and p tags
+        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));
+        System.out.println(prettyPrintedBodyFragment);
+        prettyPrintedBodyFragment = prettyPrintedBodyFragment
+                .replaceAll("<br>", "\n")
+                .replaceAll("<p>", "")
+                .replaceAll("</p>", "")
+                .replaceAll("\n\n", "\n")
+                .replaceAll("\n\n", "\n");
+        // get plain text with preserved line breaks by disabled prettyPrint
+        return prettyPrintedBodyFragment;
     }
 }
