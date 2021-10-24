@@ -41,11 +41,8 @@ public class GetFromURL {
             return "Сервер не отвечает, повторите попытку";
         }
         return text.trim();
-
     }
     public static String cleanHTMLCode(String bodyHtml) {
-
-        // get pretty printed html with preserved br and p tags
         String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));
         System.out.println(prettyPrintedBodyFragment);
         prettyPrintedBodyFragment = prettyPrintedBodyFragment
@@ -54,7 +51,6 @@ public class GetFromURL {
                 .replaceAll("</p>", "")
                 .replaceAll("\n\n", "\n")
                 .replaceAll("\n\n", "\n");
-        // get plain text with preserved line breaks by disabled prettyPrint
         return prettyPrintedBodyFragment;
     }
 }

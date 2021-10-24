@@ -120,7 +120,9 @@ public class Bot extends TelegramLongPollingBot {
                                 stringBuilder.insert(stringBuilder.length(), text);
                                 sendMessage.setText(stringBuilder.toString());
                                 Keyboard.setSongsButtons(sendMessage);
-                                sendMessage.setText("Самые популярные песни исполнителя:\nНажмите, чтобы открыть текст");
+                                sendMessage.setText("Самые популярные песни исполнителя " + message.
+                                        replace('*', ' ').toUpperCase(Locale.ROOT) +
+                                        ":\n(Нажмите, чтобы открыть текст)");
                                 try {
                                     execute(sendMessage);
                                 } catch (TelegramApiException e) {
@@ -129,7 +131,6 @@ public class Bot extends TelegramLongPollingBot {
                             }
                         }else{
                             sendMessage.setText(text);
-                            Keyboard.setRulesButtons(sendMessage);
                             try{
                                 execute(sendMessage);
                             }catch (TelegramApiException e){
@@ -147,6 +148,7 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage1.setText(newText2);
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
+                            Keyboard.setRulesButtons(sendMessage);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -169,6 +171,7 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
                             sendMessage2.setChatId(chatId);
+                            Keyboard.setRulesButtons(sendMessage);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -186,6 +189,7 @@ public class Bot extends TelegramLongPollingBot {
                             }
                         } else {
                             sendMessage.setText(text);
+                            Keyboard.setRulesButtons(sendMessage);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {

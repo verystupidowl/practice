@@ -10,6 +10,22 @@ import java.util.List;
 import java.util.Locale;
 
 public class Keyboard {
+    public synchronized static void setArtistButtons(SendMessage sendMessage, String message){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(new KeyboardButton("Вернуться в меню"));
+        KeyboardRow keyboardRow1 = new KeyboardRow();
+        keyboardRow1.add(new KeyboardButton("Другие песни этого исполнителя"));
+        keyboard.add(keyboardRow1);
+        keyboard.add(keyboardRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
     public synchronized static void setRulesButtons(SendMessage sendMessage) {
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
