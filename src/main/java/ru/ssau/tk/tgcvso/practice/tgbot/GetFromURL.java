@@ -15,6 +15,7 @@ public class GetFromURL {
 
     public static String getFromURL(String songName) {
         String text = Consts.DEFAULT_TEXT;
+        String src = "Изображение не найдено";
         int i = 1;
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
@@ -22,11 +23,16 @@ public class GetFromURL {
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics"); //TODO:добавить обложки с гениуса
+                Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics");
+                Elements pic = doc.getElementsByAttributeValue("class", "cover_art-image");
+                for (Element element1 : pic) {
+                    Element img = element1.select("img").first();
+                    src = img.attr("src");
+                }
                 for (Element element : lyrics) {
                     text = lyrics.toString();
                     text = cleanHTMLCode(text);
-                    System.out.println(text);
+                    //System.out.println(text);
                 }
                 //System.out.println(stringBuilder);
                 i++;
@@ -40,11 +46,12 @@ public class GetFromURL {
             LogsProcessing.logsProcessing("Сервер не отвечает", i);
             return "Сервер не отвечает, повторите попытку";
         }
-        return text.trim();
+        return (text + "\n\n" + src).trim();
     }
+
     public static String cleanHTMLCode(String bodyHtml) {
         String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));
-        System.out.println(prettyPrintedBodyFragment);
+        //System.out.println(prettyPrintedBodyFragment);
         prettyPrintedBodyFragment = prettyPrintedBodyFragment
                 .replaceAll("<br>", "\n")
                 .replaceAll("<p>", "")

@@ -91,7 +91,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
-                    sendMessage.setText("Привет!\nЯ бот, который поможет тебе найти текст песни.");
+                    sendMessage.setText("Воспользуйтесь меню");
                     Keyboard.setButtons(sendMessage);
                     try {
                         execute(sendMessage);
@@ -148,7 +148,6 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage1.setText(newText2);
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
-                            Keyboard.setRulesButtons(sendMessage);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -171,7 +170,6 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
                             sendMessage2.setChatId(chatId);
-                            Keyboard.setRulesButtons(sendMessage);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -189,7 +187,6 @@ public class Bot extends TelegramLongPollingBot {
                             }
                         } else {
                             sendMessage.setText(text);
-                            Keyboard.setRulesButtons(sendMessage);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
