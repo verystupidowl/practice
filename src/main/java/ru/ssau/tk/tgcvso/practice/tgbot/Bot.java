@@ -3,6 +3,7 @@ package ru.ssau.tk.tgcvso.practice.tgbot;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -10,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -19,15 +21,15 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText().trim();
-            String chatId = update.getMessage().getChatId().toString();
-            String userFirstName = update.getMessage().getChat().getFirstName();
-            String userId = update.getMessage().getChat().getUserName();
+            String message = update.getMessage().getText().trim();                  //message from user
+            String chatId = update.getMessage().getChatId().toString();             //chat ID
+            String userFirstName = update.getMessage().getChat().getFirstName();    //username
+            String userId = update.getMessage().getChat().getUserName();            //user ID
             switch (message) {
                 case "Привет": {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setChatId(chatId);
-                    sendMessage.setText("Ну привет, " + userFirstName);
+                    SendMessage sendMessage = new SendMessage();                    //create an object of SendMessage
+                    sendMessage.setChatId(chatId);                                  //set chat ID
+                    sendMessage.setText("Ну привет, " + userFirstName + "\uD83D\uDC4B\uD83C\uDFFB"); //set text
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -35,11 +37,11 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     break;
                 }
-                case "Правила": {
+                case "Правила☝\uD83C\uDFFB": {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.RULES);
-                    Keyboard.setRulesButtons(sendMessage);
+                    Keyboard.setRulesButtons(sendMessage);                            //creating keyboard with 1 button "Вернуться в меню"
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -47,11 +49,11 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     break;
                 }
-                case "Помощь": {
+                case "Помощь\uD83C\uDD98": {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.HELP);
-                    Keyboard.setRulesButtons(sendMessage);
+                    Keyboard.setRulesButtons(sendMessage);                             //creating keyboard with 1 button "Вернуться в меню"
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -63,7 +65,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
-                    sendMessage.setText("Привет, " + userFirstName + "!\nЯ бот, который поможет тебе найти текст песни.");
+                    sendMessage.setText("Привет, " + userFirstName + "!\uD83D\uDE43\nЯ бот, который поможет тебе найти текст песни.");
                     SendMessage sendMessage1 = KeyboardInline.sendInlineKeyBoardMessage(chatId);
                     try {
                         execute(sendMessage);
@@ -71,15 +73,15 @@ public class Bot extends TelegramLongPollingBot {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                    LogsProcessing.logsProcessing(userId, message);
+                    LogsProcessing.logsProcessing(userId, message);                     //writing to logs
                     break;
                 }
-                case "Найти текст песни": {
+                case "Найти текст песни\uD83D\uDD0E": {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.SONG_EXAMPLE);
-                    Keyboard.setRulesButtons(sendMessage);
+                    Keyboard.setRulesButtons(sendMessage);                              //creating keyboard with 1 button "Вернуться в меню"
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -87,6 +89,21 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     break;
                 }
+                case "Топ - чарт⬆️": {
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.enableMarkdown(true);
+                    sendMessage.setChatId(chatId);
+                    List<String>list = GetFromURL.GetTopChart();                        //creating collection of top songs
+                    sendMessage.setText("Топ - чарт на сегодня:");
+                    Keyboard.setChartButtons(sendMessage, list);                        //creating a keyboard with buttons - top tracks
+                    try{
+                        execute(sendMessage);
+                    }catch (TelegramApiException e){
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+
                 case "Вернуться в меню": {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.enableMarkdown(true);
@@ -103,33 +120,10 @@ public class Bot extends TelegramLongPollingBot {
                 default: {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
-                    if (message.indexOf('*') != -1) {
+                    if (message.indexOf('*') != -1) {                               //checking for existence of symbol * if "true" message contains artist name*
                         StringBuilder stringBuilder = new StringBuilder();
-                        String text = GetTopSongs.getTopSongs(message.toLowerCase(Locale.ROOT));
-                        if(!text.equals(Consts.WITHOUT_SONGS)) {
-                            LogsProcessing.logsProcessing(userId, message);
-                            if (text.equals(Consts.DEFAULT_TEXT)) {
-                                try {
-                                    sendMessage.setText(text);
-                                    execute(sendMessage);
-                                } catch (TelegramApiException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                stringBuilder.insert(0, message);
-                                stringBuilder.insert(stringBuilder.length(), text);
-                                sendMessage.setText(stringBuilder.toString());
-                                Keyboard.setSongsButtons(sendMessage);
-                                sendMessage.setText("Самые популярные песни исполнителя " + message.
-                                        replace('*', ' ').toUpperCase(Locale.ROOT) +
-                                        ":\n(Нажмите, чтобы открыть текст)");
-                                try {
-                                    execute(sendMessage);
-                                } catch (TelegramApiException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }else{
+                        String text = GetFromURL.getTopSongs(message.toLowerCase(Locale.ROOT));//creating a string variable, which contains top songs of artist
+                        if(text.equals("Сервер не отвечает, повторите попытку")){               //checking for some problems with connection to genius
                             sendMessage.setText(text);
                             try{
                                 execute(sendMessage);
@@ -137,17 +131,53 @@ public class Bot extends TelegramLongPollingBot {
                                 e.printStackTrace();
                             }
                         }
-                    } else {
-                        String text = GetFromURL.getFromURL(message);
+                        if (!text.equals(Consts.WITHOUT_SONGS)) {                   //checking for existence of songs
+                            LogsProcessing.logsProcessing(userId, message);
+                            if (text.equals(Consts.DEFAULT_TEXT)) {                 //checking for existence of artist name
+                                try {
+                                    sendMessage.setText(text);
+                                    execute(sendMessage);
+                                } catch (TelegramApiException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                stringBuilder.insert(0, message);             //adding artist name to string builder
+                                stringBuilder.insert(stringBuilder.length(), text); //adding top songs to string builder
+                                sendMessage.setText(stringBuilder.toString());      //set text to the object of SendMessage
+                                SendPhoto sendPhoto = new SendPhoto();
+                                sendPhoto.setCaption("Самые популярные песни исполнителя " + message.   //adding a caption to a photo
+                                        replace('*', ' ').toUpperCase(Locale.ROOT) +    //removing symbol * from the received from the user artist name
+                                        ":\n(Нажмите, чтобы открыть текст)");
+                                sendPhoto.setPhoto(GetFromURL.getPhoto(message));   //setting a photo from URL
+                                sendPhoto.setChatId(chatId);
+                                Keyboard.setSongsButtons(sendMessage, sendPhoto);   //creating keyboard with top songs
+                                sendMessage.setChatId(chatId);
+                                try {
+                                    execute(sendPhoto);
+                                } catch (TelegramApiException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            sendMessage.setText(text);
+                            try {
+                                execute(sendMessage);
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {                                                    //if message from user contains artist name + song name
+                        String text = GetFromURL.getFromURL(message);           //receiving lyrics from genius
                         LogsProcessing.logsProcessing(userId, message);
-                        if (text.length() > 4000 && text.length() < 8000) {
-                            String newText = text.substring(0, 4000);
+                        if (text.length() > 4000 && text.length() < 8000) {     //checking for count of symbols
+                            String newText = text.substring(0, 4000);           //splitting
                             String newText2 = text.substring(4000);
                             SendMessage sendMessage1 = new SendMessage();
                             sendMessage.setText(newText);
-                            sendMessage1.setText(newText2);
+                            sendMessage1.setText(newText2);                     //creating 2 SendMessage objects
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
+                            Keyboard.setArtistButtons(sendMessage, message);    //creating a keyboard with artist
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -158,18 +188,19 @@ public class Bot extends TelegramLongPollingBot {
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
-                        } else if (text.length() > 8000) {
+                        } else if (text.length() > 8000) {                  //splitting if needed
                             String newText = text.substring(0, 4000);
                             String newText2 = text.substring(4000, 8000);
                             String newText3 = text.substring(8000);
                             SendMessage sendMessage1 = new SendMessage();
                             SendMessage sendMessage2 = new SendMessage();
-                            sendMessage.setText(newText);
+                            sendMessage.setText(newText);                   //creating 3 SendMessage objects
                             sendMessage1.setText(newText2);
                             sendMessage2.setText(newText3);
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
                             sendMessage2.setChatId(chatId);
+                            Keyboard.setArtistButtons(sendMessage, message);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -187,6 +218,8 @@ public class Bot extends TelegramLongPollingBot {
                             }
                         } else {
                             sendMessage.setText(text);
+                            sendMessage.setChatId(chatId);
+                            Keyboard.setArtistButtons(sendMessage, message);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -197,11 +230,11 @@ public class Bot extends TelegramLongPollingBot {
                     }
                 }
             }
-        } else if (update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {                             //processing of inline keyboard
             SendMessage sendMessage = new SendMessage();
             String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
             sendMessage.setChatId(chatId);
-            String textMessage = update.getCallbackQuery().getData();
+            String textMessage = update.getCallbackQuery().getData();       //callBackData from user
             sendMessage.setText(textMessage);
             if (sendMessage.getText().equals(Consts.POSITIVE_ANSWER)) {
                 Keyboard.setButtons(sendMessage);

@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KeyboardInline {
-    public static SendMessage sendInlineKeyBoardMessage(String chatId) {
+    public static SendMessage sendInlineKeyBoardMessage(String chatId) {                                                //method for creating an inline keyboard
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
 
-        InlineKeyboardButton button1 = new InlineKeyboardButton();
+        InlineKeyboardButton button1 = new InlineKeyboardButton();                                                      //creating a button
         button1.setText("Да");
-        button1.setCallbackData(Consts.POSITIVE_ANSWER);
+        button1.setCallbackData(Consts.POSITIVE_ANSWER);                                                                //setting data
 
         InlineKeyboardButton button2 = new InlineKeyboardButton();
         button2.setText("Нет");
@@ -30,7 +30,7 @@ public class KeyboardInline {
 
         InlineKeyboardButton button3 = new InlineKeyboardButton();
 
-        button3.setText("Кинуть денежку))0)");
+        button3.setText("Кинуть денежку))0)\uD83D\uDCB5");
         button3.setCallbackData(Consts.TEST);
         button3.setUrl("qiwi.com/n/VERYSTUPIDOWL");
         rowInline2.add(button3);

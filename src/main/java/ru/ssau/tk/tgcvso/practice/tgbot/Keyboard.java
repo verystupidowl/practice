@@ -1,6 +1,7 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -10,20 +11,23 @@ import java.util.List;
 import java.util.Locale;
 
 public class Keyboard {
-    public synchronized static void setArtistButtons(SendMessage sendMessage, String message){
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton("Вернуться в меню"));
-        KeyboardRow keyboardRow1 = new KeyboardRow();
-        keyboardRow1.add(new KeyboardButton("Другие песни этого исполнителя"));
-        keyboard.add(keyboardRow1);
-        keyboard.add(keyboardRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
+    public synchronized static void setArtistButtons(SendMessage sendMessage, String message) {
+        String text = GetFromURL.otherSongs(message);                                                                   //getting the most popular songs by this artist
+        if (!text.equals(Consts.DEFAULT_TEXT)) {                                                                        //checking for existence song
+            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                        //creating a keyboard
+            sendMessage.setReplyMarkup(replyKeyboardMarkup);                                                            //creating a replyMarkup
+            replyKeyboardMarkup.setSelective(true);
+            replyKeyboardMarkup.setResizeKeyboard(true);
+            replyKeyboardMarkup.setOneTimeKeyboard(false);
+            List<KeyboardRow> keyboard = new ArrayList<>();                                                             //creating a list of keyboard rows
+            KeyboardRow keyboardRow = new KeyboardRow();                                                                //creating a keyboard row
+            keyboardRow.add(new KeyboardButton("Вернуться в меню"));                                               //creating and adding a keyboard button
+            KeyboardRow keyboardRow1 = new KeyboardRow();
+            keyboardRow1.add(new KeyboardButton(text));
+            keyboard.add(keyboardRow1);                                                                                 //adding keyboard rows to a list
+            keyboard.add(keyboardRow);
+            replyKeyboardMarkup.setKeyboard(keyboard);
+        }
     }
 
     public synchronized static void setRulesButtons(SendMessage sendMessage) {
@@ -40,13 +44,13 @@ public class Keyboard {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    public synchronized static void setSongsButtons(SendMessage sendMessage) {
-        String[] string = new String[4];
+    public synchronized static void setSongsButtons(SendMessage sendMessage, SendPhoto sendPhoto) {
+        String[] string = new String[4];                                                                                //creating an array of strings
         int j = 0;
         int k = 0;
         String text = sendMessage.getText().replace('*', '\n');
         char[] c = text.toCharArray();
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();                                                              //splitting the songs into arrays
         for (int i = 0; i < 4; i++) {
             j += k;
             stringBuilder.setLength(0);
@@ -59,7 +63,7 @@ public class Keyboard {
             System.out.println(string[i]);
         }
         stringBuilder.setLength(0);
-        if(!string[1].isEmpty()) {
+        if (!string[1].isEmpty()) {                                                                                     //checking whether array is empty
             stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
                     .insert(stringBuilder.length(), ' ')
                     .insert(stringBuilder.length(), string[1]);
@@ -79,13 +83,13 @@ public class Keyboard {
                 }
             }
         }
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                            //creating a keyboard and adding arrays there
+        sendPhoto.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboard = new ArrayList<>();
-        if(!string[1].isEmpty()) {
+        if (!string[1].isEmpty()) {
             KeyboardRow keyboardRow1 = new KeyboardRow();
             keyboardRow1.add(new KeyboardButton(string[1]));
             keyboard.add(keyboardRow1);
@@ -106,6 +110,36 @@ public class Keyboard {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
+    public synchronized static void setChartButtons(SendMessage sendMessage, List<String> list) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        String chart1 = list.get(0);                                                                                    //assign the value of each list item to a variable
+        chart1 = chart1.trim().substring(19, chart1.length() - 6).replace('-', ' ');
+        String chart2 = list.get(2);
+
+        chart2 = chart2.trim().substring(19, chart2.length() - 6).replace('-', ' ');
+        String chart3 = list.get(4);
+
+        chart3 = chart3.trim().substring(19, chart3.length() - 6).replace('-', ' ');
+        keyboardFirstRow.add(new KeyboardButton(chart1));                                                               //creating a keyboard and adding variables there
+        keyboard.add(keyboardFirstRow);
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        keyboardSecondRow.add(new KeyboardButton(chart2));
+        keyboard.add(keyboardSecondRow);
+        KeyboardRow keyboardThirdRow = new KeyboardRow();
+        keyboardThirdRow.add(new KeyboardButton(chart3));
+        keyboard.add(keyboardThirdRow);
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(new KeyboardButton("Вернуться в меню"));
+        keyboard.add(keyboardRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
     public synchronized static void setButtons(SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -118,15 +152,19 @@ public class Keyboard {
 
 
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Правила"));
+        keyboardFirstRow.add(new KeyboardButton("Правила☝\uD83C\uDFFB"));
 
-        keyboardFirstRow.add(new KeyboardButton("Помощь"));
+        keyboardFirstRow.add(new KeyboardButton("Помощь\uD83C\uDD98"));
 
         KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add(new KeyboardButton("Найти текст песни"));
+        keyboardSecondRow.add(new KeyboardButton("Найти текст песни\uD83D\uDD0E"));
+
+        KeyboardRow keyboardThirdRow = new KeyboardRow();
+        keyboardThirdRow.add(new KeyboardButton("Топ - чарт⬆️"));
 
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
+        keyboard.add(keyboardThirdRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 }
