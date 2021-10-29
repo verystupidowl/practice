@@ -72,7 +72,7 @@ public class GetFromURL {
         } catch (IOException e) {
             e.printStackTrace();
             LogsProcessing.logsProcessing("Сервер не отвечает", i);
-            return "Сервер не отвечает, повторите попытку";
+            return Consts.SERVER_IS_NOT_RESPONDING;
         }
         return (text + "\n\n" + src).trim();
     }
@@ -95,7 +95,7 @@ public class GetFromURL {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return songName.replaceAll(GetEnglishNames.getEnglishNames(text.toLowerCase(Locale.ROOT)).trim(), "") + "*";
+        return songName.toLowerCase(Locale.ROOT).trim().replaceAll(GetEnglishNames.getEnglishNames(text.toLowerCase(Locale.ROOT)).trim(), "") + "*";
     }
 
     public static List<String> GetTopChart() {                                                                          //method for finding a top chart songs
@@ -171,8 +171,11 @@ public class GetFromURL {
 
     @NotNull
     public static String cleanHTMLCode(String bodyHtml) {                                                               //method for cleaning an HTML code
-        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br"), new Document.OutputSettings().prettyPrint(true));  //removing all HTML tags except <br> and <p>
+        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));//removing all HTML tags except <br> and <p>
         prettyPrintedBodyFragment = prettyPrintedBodyFragment
+                .replaceAll("<p>", "")
+                .replaceAll("&amp;", "&")
+                .replaceAll("</p>", "")
                 .replaceAll("<br>", "\n")                                                               //replacing remaining tags
                 .replaceAll("\n\n", "\n");
         return prettyPrintedBodyFragment;
