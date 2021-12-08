@@ -54,23 +54,24 @@ public class GetFromURL {
         String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                final WebClient webClient = new WebClient(BrowserVersion.CHROME);
+                /*final WebClient webClient = new WebClient(BrowserVersion.CHROME);
                 webClient.getOptions().setJavaScriptEnabled(false);
                 webClient.getOptions().setCssEnabled(false);
                 webClient.getOptions().setThrowExceptionOnScriptError(true);
                 webClient.getOptions().setThrowExceptionOnFailingStatusCode(true);
                 HtmlPage page = webClient.getPage(url);
-                webClient.waitForBackgroundJavaScript(3 * TIMEOUT);
+                webClient.waitForBackgroundJavaScript(3 * TIMEOUT);*/
                 //System.out.println(page.asXml());
-                Document doc = Jsoup.parse(page.asText());
                 Document document = Jsoup.connect(url)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
                         .referrer("https://genius.com/")
+                        .timeout(5 * TIMEOUT)
                         .get();
                 Elements lyrics = document.getElementsByAttributeValue("class", "Lyrics__Container-sc-1ynbvzw-6 lgZgEN");                                  //opening a certain class with lyrics in HTML code
                 Elements pic = document.getElementsByTag("meta");                          //opening a certain class with album artworks in HTML code
                 for (Element element1 : pic) {
-                    src = element1.attr("content");
+                    //src = element1.attr("content");
+                    src = element1.toString();
                     stringList.add(src);
                 }
                 for (Element element : lyrics) {
@@ -80,6 +81,12 @@ public class GetFromURL {
                 /*for (String s : stringList) {
                     System.out.println(s);
                 }*/
+                for (String s : stringList) {
+                    if (s.contains("property=\"og:image\"")){
+                        src = s.replaceAll("<meta content=\"", "").replaceAll("\" property=\"og:image\">", "");
+                    }
+                    //System.out.println(text + src);
+                }
                 i++;                                                                                                    //a count of attempts
             }
             LogsProcessing.logsProcessing("Успешно", i);
@@ -91,28 +98,32 @@ public class GetFromURL {
             LogsProcessing.logsProcessing("Сервер не отвечает", i);
             return Consts.SERVER_IS_NOT_RESPONDING;
         }
-        return (text + "\n\n" + stringList.get(12)).trim();
+        return (text + "\n\n" + src).trim();
     }
 
     public static String otherSongs(String songName) {                                                                  //method for finding other songs with the help of this song
         String text = "Изображение не найдено";
+        List<String> stringList = new ArrayList<>();
         try {
             while (text.equals("Изображение не найдено")) {
                 Document doc = Jsoup.connect("https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/")
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                Elements pic = doc.getElementsByAttributeValue("class", "SongHeaderVariantdesktop__Title-sc-12tszai-7 iWUdKG");    //class with the name of the artist in HTML code
-                for (Element element1 : pic) {
-                    text = element1.firstElementSibling().text();
+                Elements pic = doc.getElementsByAttributeValue("class", "SongHeaderVariantdesktop__Title-sc-12tszai-7 iWUdKG");
+                Elements pics = doc.select("a");
+                for (Element element1 : pics) {
+                    text = element1.attr("href"); //7
+                    stringList.add(text);
                 }
             }
+            System.out.println(stringList.get(7));
         } catch (HttpStatusException e) {
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return songName.toLowerCase(Locale.ROOT).trim().replaceAll(GetEnglishNames.getEnglishNames(text.toLowerCase(Locale.ROOT)).trim(), "") + "*";
+        return stringList.get(7).replaceAll("https://genius.com/artists/", "").toUpperCase(Locale.ROOT) + "*";
     }
 
     public static List<String> getTopChart() {                                                                          //method for finding a top chart songs

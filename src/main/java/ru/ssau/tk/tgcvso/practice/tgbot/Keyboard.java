@@ -13,7 +13,7 @@ import java.util.Locale;
 public class Keyboard {
     public synchronized static void setArtistButtons(SendMessage sendMessage, String message) {
         String text = GetFromURL.otherSongs(message);                                                                   //getting the most popular songs by this artist
-        if (!text.equals(Consts.DEFAULT_TEXT)) {                                                                        //checking for existence song
+        if (!text.equals(Consts.DEFAULT_TEXT) && !text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {                                                                        //checking for existence song
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                        //creating a keyboard
             sendMessage.setReplyMarkup(replyKeyboardMarkup);                                                            //creating a replyMarkup
             replyKeyboardMarkup.setSelective(true);
