@@ -16,7 +16,7 @@ import java.util.Locale;
 
 
 public class Bot extends TelegramLongPollingBot {
-    //TODO: Добавить переводчик, привязанный к гуглу
+    //TODO: Добавить поиск по сайту
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
@@ -93,12 +93,12 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
-                    List<String>list = GetFromURL.GetTopChart();                        //creating collection of top songs
+                    List<String> list = GetFromURL.getTopChart();                        //creating collection of top songs
                     sendMessage.setText("Топ - чарт на сегодня:");
                     Keyboard.setChartButtons(sendMessage, list);                        //creating a keyboard with buttons - top tracks
-                    try{
+                    try {
                         execute(sendMessage);
-                    }catch (TelegramApiException e){
+                    } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
                     break;
@@ -123,11 +123,11 @@ public class Bot extends TelegramLongPollingBot {
                     if (message.indexOf('*') != -1) {                               //checking for existence of symbol * if "true" message contains artist name*
                         StringBuilder stringBuilder = new StringBuilder();
                         String text = GetFromURL.getTopSongs(message.toLowerCase(Locale.ROOT));//creating a string variable, which contains top songs of artist
-                        if(text.equals("Сервер не отвечает, повторите попытку")){               //checking for some problems with connection to genius
+                        if (text.equals("Сервер не отвечает, повторите попытку")) {               //checking for some problems with connection to genius
                             sendMessage.setText(text);
-                            try{
+                            try {
                                 execute(sendMessage);
-                            }catch (TelegramApiException e){
+                            } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -135,6 +135,7 @@ public class Bot extends TelegramLongPollingBot {
                             LogsProcessing.logsProcessing(userId, message);
                             if (text.equals(Consts.DEFAULT_TEXT)) {                 //checking for existence of artist name
                                 try {
+                                    //text = GetFromURL.getSearch(message);
                                     sendMessage.setText(text);
                                     execute(sendMessage);
                                 } catch (TelegramApiException e) {

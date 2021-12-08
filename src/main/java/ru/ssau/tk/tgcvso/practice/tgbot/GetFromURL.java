@@ -1,6 +1,8 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
-import org.jetbrains.annotations.NotNull;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,7 +17,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class GetFromURL {
-
     public static String getPhoto(String songName) {        //method for finding a URL of the artist's photo
         String src = "Изображение не найдено";
         int i = 0;
@@ -47,22 +48,38 @@ public class GetFromURL {
         String text = Consts.DEFAULT_TEXT;
         String src = "Изображение не найдено";
         int i = 0;
+        int k = 0;
+        List<String> stringList = new ArrayList<>();
+        final int TIMEOUT = 1000;
+        String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                Document doc = Jsoup.connect("https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/") //connecting to the website
-                        .userAgent("Chrome/81.0.4044.138")
-                        .referrer("http://www.google.com")
+                final WebClient webClient = new WebClient(BrowserVersion.CHROME);
+                webClient.getOptions().setJavaScriptEnabled(false);
+                webClient.getOptions().setCssEnabled(false);
+                webClient.getOptions().setThrowExceptionOnScriptError(true);
+                webClient.getOptions().setThrowExceptionOnFailingStatusCode(true);
+                HtmlPage page = webClient.getPage(url);
+                webClient.waitForBackgroundJavaScript(3 * TIMEOUT);
+                //System.out.println(page.asXml());
+                Document doc = Jsoup.parse(page.asText());
+                Document document = Jsoup.connect(url)
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
+                        .referrer("https://genius.com/")
                         .get();
-                Elements lyrics = doc.getElementsByAttributeValue("class", "lyrics");                                   //opening a certain class with lyrics in HTML code
-                Elements pic = doc.getElementsByAttributeValue("class", "cover_art-image");                             //opening a certain class with album artworks in HTML code
+                Elements lyrics = document.getElementsByAttributeValue("class", "Lyrics__Container-sc-1ynbvzw-6 lgZgEN");                                  //opening a certain class with lyrics in HTML code
+                Elements pic = document.getElementsByTag("meta");                          //opening a certain class with album artworks in HTML code
                 for (Element element1 : pic) {
-                    Element img = element1.select("img").first();                                               //scanning certain tags in HTML
-                    src = img.attr("src");                                                                    //scanning certain attribute in HTML
+                    src = element1.attr("content");
+                    stringList.add(src);
                 }
                 for (Element element : lyrics) {
                     text = lyrics.toString();                                                                           //assigning the entire code in the class to the variable text
                     text = cleanHTMLCode(text);                                                                         //cleaning text from HTML marks
                 }
+                /*for (String s : stringList) {
+                    System.out.println(s);
+                }*/
                 i++;                                                                                                    //a count of attempts
             }
             LogsProcessing.logsProcessing("Успешно", i);
@@ -74,7 +91,7 @@ public class GetFromURL {
             LogsProcessing.logsProcessing("Сервер не отвечает", i);
             return Consts.SERVER_IS_NOT_RESPONDING;
         }
-        return (text + "\n\n" + src).trim();
+        return (text + "\n\n" + stringList.get(12)).trim();
     }
 
     public static String otherSongs(String songName) {                                                                  //method for finding other songs with the help of this song
@@ -85,7 +102,7 @@ public class GetFromURL {
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                Elements pic = doc.getElementsByAttributeValue("class", "header_with_cover_art-primary_info-title");    //class with the name of the artist in HTML code
+                Elements pic = doc.getElementsByAttributeValue("class", "SongHeaderVariantdesktop__Title-sc-12tszai-7 iWUdKG");    //class with the name of the artist in HTML code
                 for (Element element1 : pic) {
                     text = element1.firstElementSibling().text();
                 }
@@ -98,7 +115,7 @@ public class GetFromURL {
         return songName.toLowerCase(Locale.ROOT).trim().replaceAll(GetEnglishNames.getEnglishNames(text.toLowerCase(Locale.ROOT)).trim(), "") + "*";
     }
 
-    public static List<String> GetTopChart() {                                                                          //method for finding a top chart songs
+    public static List<String> getTopChart() {                                                                          //method for finding a top chart songs
         String track;
         List<String> list = new ArrayList<>();
         try {
@@ -144,7 +161,7 @@ public class GetFromURL {
                 }
                 k = 0;
                 if (blackList.size() != 10) {                                                                           //checking whether the artist has songs
-                    for (Element element : lyrics.before("full_width_button u-clickable u-bottom_margin")) {
+                    for (Element element : lyrics) {
                         if (!blackList.contains(j)) {                                                                   //checking whether blacklist contains certain index
                             text = element.text();
                             stringBuilder.insert(stringBuilder.length(), text);
@@ -169,7 +186,54 @@ public class GetFromURL {
         return GetEnglishNames.getEnglishNames(stringBuilder.toString().toLowerCase(Locale.ROOT));
     }
 
-    @NotNull
+    public static String getSearch(String message) {
+        String text = Consts.DEFAULT_TEXT;
+        int i = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        message = message.toLowerCase(Locale.ROOT).replaceAll(" ", "%20").replace('*', ' ').trim();
+        String url = "https://genius.com/search?q=" + message;
+        System.out.println(url);
+        final int TIMEOUT = 1000;
+        try {
+            while (text.equals(Consts.DEFAULT_TEXT)) {
+                final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_60);
+                webClient.getOptions().setJavaScriptEnabled(true);
+                webClient.getOptions().setCssEnabled(true);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+                webClient.getOptions().setTimeout(TIMEOUT);
+                final HtmlPage page = webClient.getPage(url);
+                webClient.waitForBackgroundJavaScript(3 * TIMEOUT);
+                System.out.println(page.getTitleText());
+                Document doc = Jsoup.parse(page.asXml());
+                //.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.68")
+                //  .timeout(TIMEOUT)
+                //  .referrer("http://www.google.com")
+                // .get();
+                Elements titles = doc.select("a[href]");
+                //Elements artists = doc.getElementsByAttributeValue("class", "mini_card-subtitle");
+                for (Element element : titles) {
+                    text = cleanHTMLCode(element.toString());
+                    stringBuilder.insert(stringBuilder.length(), text);
+                    stringBuilder.insert(stringBuilder.length(), "\n");
+                }
+                i++;
+                if (i > 5)
+                    break;
+                webClient.close();
+            }
+            System.out.println(stringBuilder);
+            System.out.println(stringBuilder.length());
+
+        } catch (HttpStatusException e) {
+            e.printStackTrace();
+            LogsProcessing.logsProcessing("Не найдено", 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
     public static String cleanHTMLCode(String bodyHtml) {                                                               //method for cleaning an HTML code
         String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));//removing all HTML tags except <br> and <p>
         prettyPrintedBodyFragment = prettyPrintedBodyFragment
