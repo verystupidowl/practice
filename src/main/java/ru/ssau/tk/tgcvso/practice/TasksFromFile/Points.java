@@ -40,6 +40,16 @@ public class Points {
         return new Point(1 / point.x, 1 / point.y, 1 / point.z);
     }
 
+    public static double scalarProduct(Point firstPoint, Point secondPoint) {
+        return firstPoint.x * secondPoint.x + firstPoint.y * secondPoint.y + firstPoint.z * secondPoint.z;
+    }
+
+    public static Point vectorProduct(Point firstPoint, Point secondPoint) {
+        return new Point((firstPoint.y * secondPoint.z - firstPoint.z * secondPoint.y)
+                , (firstPoint.z * secondPoint.x - firstPoint.x * secondPoint.z)//
+                , (firstPoint.x * secondPoint.y - firstPoint.y * secondPoint.x));
+    }
+
     public static void main(String[] args) {
         System.out.println(Points.sum(A, B).x + " " + Points.sum(A, B).y + " " + Points.sum(A, B).z);
         System.out.println(Points.subtract(A, B).x + " " + Points.subtract(A, B).y + " " + Points.subtract(A, B).z);
@@ -50,5 +60,7 @@ public class Points {
         System.out.println(length(B));
         System.out.println(inverse(B).x + " " + inverse(B).y + " " + inverse(B).z);
         System.out.println(opposite(B).x + " " + opposite(B).y + " " + opposite(B).z);
+        System.out.println(scalarProduct(A, B));
+        System.out.println(vectorProduct(A, B).x + " " + vectorProduct(A, B).y + " " + vectorProduct(A, B).z);
     }
 }
