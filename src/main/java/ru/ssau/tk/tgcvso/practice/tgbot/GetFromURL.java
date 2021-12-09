@@ -48,7 +48,6 @@ public class GetFromURL {
         String text = Consts.DEFAULT_TEXT;
         String src = "Изображение не найдено";
         int i = 0;
-        int k = 0;
         List<String> stringList = new ArrayList<>();
         final int TIMEOUT = 1000;
         String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
@@ -82,7 +81,7 @@ public class GetFromURL {
                     System.out.println(s);
                 }*/
                 for (String s : stringList) {
-                    if (s.contains("property=\"og:image\"")){
+                    if (s.contains("property=\"og:image\"")) {
                         src = s.replaceAll("<meta content=\"", "").replaceAll("\" property=\"og:image\">", "");
                     }
                     //System.out.println(text + src);
@@ -110,20 +109,20 @@ public class GetFromURL {
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                Elements pic = doc.getElementsByAttributeValue("class", "SongHeaderVariantdesktop__Title-sc-12tszai-7 iWUdKG");
+                //Elements pic = doc.getElementsByAttributeValue("class", "SongHeaderVariantdesktop__Title-sc-12tszai-7 iWUdKG");
                 Elements pics = doc.select("a");
                 for (Element element1 : pics) {
-                    text = element1.attr("href"); //7
+                    text = element1.text(); //7
                     stringList.add(text);
                 }
             }
-            System.out.println(stringList.get(7));
+            System.out.println(stringList.get(stringList.size() - 1));
         } catch (HttpStatusException e) {
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return stringList.get(7).replaceAll("https://genius.com/artists/", "").toUpperCase(Locale.ROOT) + "*";
+        return GetEnglishNames.getEnglishNames(stringList.get(7).toLowerCase(Locale.ROOT)).toUpperCase(Locale.ROOT) + "*";
     }
 
     public static List<String> getTopChart() {                                                                          //method for finding a top chart songs
@@ -157,10 +156,11 @@ public class GetFromURL {
         List<Integer> blackList = new ArrayList<>();
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                Document doc = Jsoup.connect("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT))
+                Document doc = Jsoup.connect("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT).replace('*', ' ').replaceAll(" ", ""))
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
+                System.out.println("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT).replace('*', ' ').replaceAll(" ", ""));
                 Elements artist = doc.getElementsByAttributeValue("class", "mini_card-subtitle");                       //class which contains subtitles of songs
                 Elements lyrics = doc.getElementsByAttributeValue("class", "mini_card-title");                          //class which contains titles of songs
                 for (Element element1 : artist) {
