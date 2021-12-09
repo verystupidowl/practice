@@ -32,6 +32,14 @@ public class Points {
         return point.length();
     }
 
+    public static Point opposite(Point point) {
+        return new Point(point.x * -1, point.y * -1, point.z * -1);
+    }
+
+    public static Point inverse(Point point) {
+        return new Point(1 / point.x, 1 / point.y, 1 / point.z);
+    }
+
     public static void main(String[] args) {
         System.out.println(Points.sum(A, B).x + " " + Points.sum(A, B).y + " " + Points.sum(A, B).z);
         System.out.println(Points.subtract(A, B).x + " " + Points.subtract(A, B).y + " " + Points.subtract(A, B).z);
@@ -40,5 +48,7 @@ public class Points {
         System.out.println(Points.enlarge(A, 3.0).x + " " + Points.enlarge(A, 4.5).y + " " + Points.enlarge(A, 1049.53).z);
         System.out.println(A.length());
         System.out.println(length(B));
+        System.out.println(inverse(B).x + " " + inverse(B).y + " " + inverse(B).z);
+        System.out.println(opposite(B).x + " " + opposite(B).y + " " + opposite(B).z);
     }
 }
