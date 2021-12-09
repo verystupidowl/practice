@@ -116,7 +116,6 @@ public class GetFromURL {
                     stringList.add(text);
                 }
             }
-            System.out.println(stringList.get(stringList.size() - 1));
         } catch (HttpStatusException e) {
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
@@ -160,7 +159,6 @@ public class GetFromURL {
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                System.out.println("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT).replace('*', ' ').replaceAll(" ", ""));
                 Elements artist = doc.getElementsByAttributeValue("class", "mini_card-subtitle");                       //class which contains subtitles of songs
                 Elements lyrics = doc.getElementsByAttributeValue("class", "mini_card-title");                          //class which contains titles of songs
                 for (Element element1 : artist) {
