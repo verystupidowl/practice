@@ -47,9 +47,4 @@ public class Person {
     public int getPassportId() {
         return passportId;
     }
-
-    Person AkmalDusmuratov = new Person();
-    Person KirillKrylov = new Person("Kirill", "Krylov");
-    Person AlexeyAltishkin = new Person(12345);
-    Person AlexeyMaklov = new Person("Alexey", "Maklov", 54321);
 }
