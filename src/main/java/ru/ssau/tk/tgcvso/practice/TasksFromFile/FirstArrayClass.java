@@ -217,14 +217,22 @@ public class FirstArrayClass {
         int firstElement = 0;
         int lastElement = 0;
         for (int i : array) {
-                if (array[i] % array[0] == 0)
-                    firstElement++;
+            if (array[i] % array[0] == 0)
+                firstElement++;
         }
         for (int i : array) {
             if (array[i] % array[array.length - 1] == 0)
                 lastElement++;
         }
         return firstElement > lastElement;
+    }
+
+    public Integer getFirstIndexOfNumber(int[] array, int number) {
+        for (int i = 0; i < array.length; i++) {
+            if(array[i] == number)
+                return i;
+        }
+        return null;
     }
 }
 

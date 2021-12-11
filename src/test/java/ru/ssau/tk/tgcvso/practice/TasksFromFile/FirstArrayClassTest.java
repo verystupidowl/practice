@@ -165,4 +165,12 @@ public class FirstArrayClassTest {
         boolean whoHasTheMostDivisible = object.getWhoHasTheMostDivisible(array);
         Assert.assertTrue(whoHasTheMostDivisible);
     }
+
+    @Test
+    public void testGetFirstIndexOfNumber() {
+        int[] array = {4, 654, 7, 45, 7, 85, 4};
+        Integer knownIndex = 0;
+        Integer index = object.getFirstIndexOfNumber(array, 4);
+        Assert.assertEquals(knownIndex, index);
+    }
 }
