@@ -173,4 +173,12 @@ public class FirstArrayClassTest {
         Integer index = object.getFirstIndexOfNumber(array, 4);
         Assert.assertEquals(knownIndex, index);
     }
+
+    @Test
+    public void testChangeMinAndMax() {
+        int[] array = {534, 65, 7, 74, 34, 654};
+        object.changeMinAndMax(array);
+        int[] knownArray = {534, 65, 654, 74, 34, 7};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }

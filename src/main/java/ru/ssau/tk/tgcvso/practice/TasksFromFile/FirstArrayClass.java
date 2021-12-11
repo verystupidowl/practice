@@ -206,6 +206,13 @@ public class FirstArrayClass {
         return array[array.length - 1];
     }
 
+    public Integer getMinElement(int[] array) {
+        if (array.length == 0)
+            return null;
+        array = Arrays.stream(array).sorted().toArray();
+        return array[0];
+    }
+
     public int getSumOfEvenIndexes(int[] array) {
         int sum = 0;
         for (int i = 0; i < array.length; i += 2)
@@ -229,10 +236,27 @@ public class FirstArrayClass {
 
     public Integer getFirstIndexOfNumber(int[] array, int number) {
         for (int i = 0; i < array.length; i++) {
-            if(array[i] == number)
+            if (array[i] == number)
                 return i;
         }
         return null;
+    }
+
+    public void changeMinAndMax(int[] array) {
+        int maxElement = array[0], minElement = array[0];
+        int maxIndex = 0, minIndex = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] > maxElement) {
+                maxElement = array[i];
+                maxIndex = i;
+            }
+            if (array[i] < minElement) {
+                minElement = array[i];
+                minIndex = i;
+            }
+        }
+        array[minIndex] = maxElement;
+        array[maxIndex] = minElement;
     }
 }
 
