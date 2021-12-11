@@ -100,4 +100,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {1, 2, 3};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetPrimeNumbers() {
+        int[] array = object.getPrimeNumbers(10);
+        int[] knownArray = {2, 3, 5, 7};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
