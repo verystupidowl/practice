@@ -42,4 +42,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {0, 1, 1, 2, 3};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetSquaredInt() {
+        int[] array = object.getSquaredInt(7);
+        int[] knownArray = {0, 1, 4, 9, 16, 25, 36};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
