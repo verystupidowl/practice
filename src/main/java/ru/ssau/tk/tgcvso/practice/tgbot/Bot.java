@@ -228,7 +228,7 @@ public class Bot extends TelegramLongPollingBot {
                                 e.printStackTrace();
                             }
                         } else {
-                            sendMessage.setText("Текст " + message);
+                            sendMessage.setText("Текст " + message + "\uD83D\uDC47\uD83C\uDFFB");
                             sendMessage.setChatId(chatId);
                             SendMessage sendMessage1 = KeyboardInline.sendInlineKeyboardAboutSong(chatId, message, text);
                             Keyboard.setArtistButtons(sendMessage, message);
