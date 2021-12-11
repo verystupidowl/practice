@@ -24,4 +24,14 @@ public class FirstArrayClass {
         }
         return array;
     }
+
+    public int[] getEvenArray(int size) {
+        int k = 2;
+        int[] array = new int[size];
+        for (int i = array.length - 1; i >= 0; i--) {
+            array[i] = k;
+            k += 2;
+        }
+        return array;
+    }
 }

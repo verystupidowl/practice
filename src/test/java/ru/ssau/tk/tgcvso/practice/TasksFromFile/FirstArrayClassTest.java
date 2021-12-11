@@ -28,4 +28,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {1, 3, 5, 7, 9};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetEvenArray() {
+        int[] array = object.getEvenArray(5);
+        int[] knownArray = {10, 8, 6, 4, 2};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
