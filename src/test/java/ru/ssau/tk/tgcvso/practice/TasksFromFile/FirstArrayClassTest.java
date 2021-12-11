@@ -122,4 +122,11 @@ public class FirstArrayClassTest {
         object.getSymmetricNumbers(array);
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetContainsNumber() {
+        int[] array = {1, 54, 205, 654, 74};
+        boolean isContain = object.getContainsNumber(array, 205);
+        Assert.assertTrue(isContain);
+    }
 }

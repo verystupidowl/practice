@@ -167,9 +167,17 @@ public class FirstArrayClass {
     }
 
     public void getSymmetricNumbers(int[] array) {
-        for(int i = 0; i < array.length; i++){
+        for (int i = 0; i < array.length; i++) {
             array[i] *= -1;
         }
+    }
+
+    public boolean getContainsNumber(int[] array, int number) {
+        for (int i : array) {
+            if (i == number)
+                return true;
+        }
+        return false;
     }
 }
 
