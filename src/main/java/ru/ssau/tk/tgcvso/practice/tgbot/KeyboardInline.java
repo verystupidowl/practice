@@ -44,4 +44,27 @@ public class KeyboardInline {
         smInline.setReplyMarkup(markupInline);
         return smInline;
     }
+
+    public static SendMessage sendInlineKeyboardAboutSong(String chatId, String message, String text) {
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+        InlineKeyboardButton button1 = new InlineKeyboardButton();                                                      //creating a button
+        button1.setText("О песне(Нажмите на сообщение)");
+        String info = "/" + message.replaceAll(" ", "_");
+        System.out.println(info);
+        button1.setCallbackData(info);
+
+        rowInline.add(button1);
+        rowsInline.add(rowInline);
+
+        markupInline.setKeyboard(rowsInline);
+
+        SendMessage smInline = new SendMessage();
+        smInline.setChatId(chatId);
+        smInline.setText(text);
+        smInline.setReplyMarkup(markupInline);
+        return smInline;
+    }
 }

@@ -11,12 +11,14 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 public class GetFromURL {
+    static final int TIMEOUT = 1000;
     public static String getPhoto(String songName) {        //method for finding a URL of the artist's photo
         String src = "Изображение не найдено";
         int i = 0;
@@ -44,12 +46,44 @@ public class GetFromURL {
         return src;
     }
 
+    public static String getInfoAboutSong(String songName){
+        String info = "Не найдено";
+        int k = 0;
+        String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
+        while (info.equals("Не найдено")) {
+            try {
+                Document document = Jsoup.connect(url)
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
+                        .referrer("https://genius.com/")
+                        .timeout(5 * TIMEOUT)
+                        .get();
+                Elements infos = document.getElementsByAttributeValue("class", "ExpandableContent__Container-sc-1165iv-0 ikywhQ SongDescription__ExpandableContent-sc-615rvk-3 eahHPb");
+                for (Element element : infos) {
+                    info = cleanHTMLCode(element.toString()).trim();
+                }
+            }
+            catch (SocketTimeoutException e){
+                e.printStackTrace();
+                return "Сервер не отвечает, повторите попытку";
+            }
+            catch (HttpStatusException e){
+                return "Не знаю такого";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            k++;
+            if(k > 5){
+                return "Не найдено";
+            }
+        }
+        return info.substring(0, info.length() - 6);
+    }
+
     public static String getFromURL(String songName) {                                                                  //method for finding lyrics and album artwork
         String text = Consts.DEFAULT_TEXT;
         String src = "Изображение не найдено";
         int i = 0;
         List<String> stringList = new ArrayList<>();
-        final int TIMEOUT = 1000;
         String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
@@ -114,7 +148,11 @@ public class GetFromURL {
                     stringList.add(text);
                 }
             }
-        } catch (HttpStatusException e) {
+        }catch (SocketTimeoutException e){
+            e.printStackTrace();
+            return Consts.SERVER_IS_NOT_RESPONDING;
+        }
+        catch (HttpStatusException e) {
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
             e.printStackTrace();

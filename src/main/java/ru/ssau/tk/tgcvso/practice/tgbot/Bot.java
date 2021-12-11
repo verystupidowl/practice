@@ -120,7 +120,15 @@ public class Bot extends TelegramLongPollingBot {
                 default: {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
-                    if (message.indexOf('*') != -1) {                               //checking for existence of symbol * if "true" message contains artist name*
+                    if(message.indexOf('/') != -1){
+                        sendMessage.setText(GetFromURL.getInfoAboutSong(message.substring(1).replaceAll("_", "-")));
+                        sendMessage.setChatId(chatId);
+                        try{
+                            execute(sendMessage);
+                        }catch (TelegramApiException e){
+                            e.printStackTrace();
+                        }
+                    } else if (message.indexOf('*') != -1) {                               //checking for existence of symbol * if "true" message contains artist name*
                         StringBuilder stringBuilder = new StringBuilder();
                         String text = GetFromURL.getTopSongs(message.toLowerCase(Locale.ROOT));//creating a string variable, which contains top songs of artist
                         if (text.equals("Сервер не отвечает, повторите попытку")) {               //checking for some problems with connection to genius
@@ -175,17 +183,18 @@ public class Bot extends TelegramLongPollingBot {
                             String newText2 = text.substring(4000);
                             SendMessage sendMessage1 = new SendMessage();
                             sendMessage.setText(newText);
-                            sendMessage1.setText(newText2);                     //creating 2 SendMessage objects
+                            sendMessage1.setText(newText2);
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
-                            Keyboard.setArtistButtons(sendMessage, message);    //creating a keyboard with artist
+                            SendMessage sendMessage2 = KeyboardInline.sendInlineKeyboardAboutSong(chatId, message, newText2);
+                            Keyboard.setArtistButtons(sendMessage1, message);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
                             try {
-                                execute(sendMessage1);
+                                execute(sendMessage2);
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
@@ -201,7 +210,8 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
                             sendMessage2.setChatId(chatId);
-                            Keyboard.setArtistButtons(sendMessage, message);
+                            SendMessage sendMessage3 = KeyboardInline.sendInlineKeyboardAboutSong(chatId, message, newText3);
+                            Keyboard.setArtistButtons(sendMessage1, message);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -213,17 +223,23 @@ public class Bot extends TelegramLongPollingBot {
                                 e.printStackTrace();
                             }
                             try {
-                                execute(sendMessage2);
+                                execute(sendMessage3);
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            sendMessage.setText(text);
+                            sendMessage.setText("Текст " + message);
                             sendMessage.setChatId(chatId);
+                            SendMessage sendMessage1 = KeyboardInline.sendInlineKeyboardAboutSong(chatId, message, text);
                             Keyboard.setArtistButtons(sendMessage, message);
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            try{
+                                execute(sendMessage1);
+                            }catch (TelegramApiException e){
                                 e.printStackTrace();
                             }
                             break;
@@ -231,11 +247,11 @@ public class Bot extends TelegramLongPollingBot {
                     }
                 }
             }
-        } else if (update.hasCallbackQuery()) {                             //processing of inline keyboard
+        } else if (update.hasCallbackQuery()) {
             SendMessage sendMessage = new SendMessage();
             String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
             sendMessage.setChatId(chatId);
-            String textMessage = update.getCallbackQuery().getData();       //callBackData from user
+            String textMessage = update.getCallbackQuery().getData();
             sendMessage.setText(textMessage);
             if (sendMessage.getText().equals(Consts.POSITIVE_ANSWER)) {
                 Keyboard.setButtons(sendMessage);
