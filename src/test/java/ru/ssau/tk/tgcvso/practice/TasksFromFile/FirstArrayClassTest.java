@@ -151,4 +151,11 @@ public class FirstArrayClassTest {
         Integer max = object.getMaxElement(array);
         Assert.assertEquals(max, knownMax);
     }
+
+    @Test
+    public void testGetSumOfEvenIndexes() {
+        int[] array = {634, 64, 543, 63, 66, 53};
+        int sum = object.getSumOfEvenIndexes(array);
+        Assert.assertEquals(sum, 1243);
+    }
 }

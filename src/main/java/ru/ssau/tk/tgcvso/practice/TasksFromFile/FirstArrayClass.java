@@ -205,5 +205,12 @@ public class FirstArrayClass {
         array = Arrays.stream(array).sorted().toArray();
         return array[array.length - 1];
     }
+
+    public int getSumOfEvenIndexes (int[] array) {
+        int sum = 0;
+        for (int i = 0; i < array.length; i+=2)
+            sum+= array[i];
+        return sum;
+    }
 }
 
