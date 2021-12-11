@@ -70,14 +70,27 @@ public class FirstArrayClass {
             else
                 return new double[]{0, result};
         }
-            double discriminant = b * b - 4 * a * c;
-            if (discriminant < 0) return new double[]{};
-            if (discriminant == 0) return new double[]{-b / (2 * a)};
-            double firstX = (-b + Math.sqrt(discriminant)) / (2 * a);
-            double secondX = (-b - Math.sqrt(discriminant)) / (2 * a);
-            if (firstX == secondX) return new double[]{firstX};
-            if (secondX < firstX) return new double[]{secondX, firstX};
-            return new double[]{firstX, secondX};
+        double discriminant = b * b - 4 * a * c;
+        if (discriminant < 0) return new double[]{};
+        if (discriminant == 0) return new double[]{-b / (2 * a)};
+        double firstX = (-b + Math.sqrt(discriminant)) / (2 * a);
+        double secondX = (-b - Math.sqrt(discriminant)) / (2 * a);
+        if (firstX == secondX) return new double[]{firstX};
+        if (secondX < firstX) return new double[]{secondX, firstX};
+        return new double[]{firstX, secondX};
+    }
+
+    public int[] getNaturalNumbers(int size) {
+        int[] array = new int[size];
+        int k = 0;
+        for (int i = 0; array[size - 1] == 0; i++) {
+            if (i % 3 == 0) {
+                k++;
+                continue;
+            }
+            array[i - k] = i;
+        }
+        return array;
     }
 }
 

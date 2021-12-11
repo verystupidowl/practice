@@ -5,16 +5,17 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-import static org.testng.Assert.*;
 
 public class FirstArrayClassTest {
     FirstArrayClass object = new FirstArrayClass();
+
     @Test
     public void testGetArrayBySize() {
         double[] array = object.getArrayBySize(5);
         double[] knownArray = {0.0, 0.0, 0.0, 0.0, 0.0};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
     @Test
     public void testGetArrayWithOnes() {
         int[] array = object.getArrayWithOnes(5);
@@ -60,7 +61,7 @@ public class FirstArrayClassTest {
         double[] sixthArray = object.getTheQuadraticEquationArray(-1, -5, 14);
         double[] firstKnownArray = {-0.3};
         double[] secondKnownArray = {};
-        double[] thirdKnownArray = {- 0.7, 0};
+        double[] thirdKnownArray = {-0.7, 0};
         double[] fourthKnownArray = {-0.5};
         double[] fifthKnownArray = {-3, -2};
         double[] sixthKnownArray = {-7, 2};
@@ -70,5 +71,12 @@ public class FirstArrayClassTest {
         Assert.assertTrue(Arrays.equals(fourthArray, fourthKnownArray));
         Assert.assertTrue(Arrays.equals(fifthArray, fifthKnownArray));
         Assert.assertTrue(Arrays.equals(sixthArray, sixthKnownArray));
+    }
+
+    @Test
+    public void testGetNaturalNumbers() {
+        int[] array = object.getNaturalNumbers(10);
+        int[] knownArray = {1, 2, 4, 5, 7, 8, 10, 11, 13, 14};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
     }
 }
