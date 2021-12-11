@@ -21,4 +21,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {2, 1, 1, 1, 2};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetOddArray() {
+        int[] array = object.getOddArray(5);
+        int[] knownArray = {1, 3, 5, 7, 9};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
