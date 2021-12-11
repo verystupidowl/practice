@@ -109,5 +109,20 @@ public class FirstArrayClass {
         return array;
     }
 
+    public int[] getDividerArray(int number) {
+        int numberOfDividers = 0;
+        for (int i = 1; i <= Math.sqrt(number); i++)
+            if (number % i == 0) numberOfDividers++;
+        if (numberOfDividers == 0)
+            return null;
+        int[] array = new int[numberOfDividers];
+        int j = 0;
+        for (int i = 1; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                array[j++] = i;
+            }
+        }
+        return array;
+    }
 }
 

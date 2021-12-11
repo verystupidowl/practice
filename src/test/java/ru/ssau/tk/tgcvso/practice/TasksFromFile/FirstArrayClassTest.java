@@ -93,4 +93,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {7, 70, 700, 7000, 70000};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetDividerArray() {
+        int[] array = object.getDividerArray(12);
+        int[] knownArray = {1, 2, 3};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
