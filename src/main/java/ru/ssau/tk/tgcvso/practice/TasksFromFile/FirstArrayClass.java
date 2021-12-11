@@ -151,6 +151,19 @@ public class FirstArrayClass {
         return array;
     }
 
-
+    public int[] getNaturalReversed(int number) {
+        int[] array = new int[number];
+        int k = 1;
+        for (int i = 0; i < array.length / 2; i++) {
+            array[i] = k;
+            k++;
+        }
+        k = array.length / 2;
+        for (int i = array.length / 2; i < array.length; i++) {
+            array[i] = k;
+            k--;
+        }
+        return array;
+    }
 }
 

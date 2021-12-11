@@ -107,4 +107,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {2, 3, 5, 7};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetNaturalReversed() {
+        int[] array = object.getNaturalReversed(10);
+        int[] knownArray = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
