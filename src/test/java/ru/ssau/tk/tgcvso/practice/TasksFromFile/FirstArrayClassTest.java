@@ -114,4 +114,12 @@ public class FirstArrayClassTest {
         int[] knownArray = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetSymmetricNumbers() {
+        int[] array = {1, 3, -30, 12, 123, -54};
+        int[] knownArray = {-1, -3, 30, -12, -123, 54};
+        object.getSymmetricNumbers(array);
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
