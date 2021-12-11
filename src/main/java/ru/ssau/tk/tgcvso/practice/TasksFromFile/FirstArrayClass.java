@@ -199,18 +199,32 @@ public class FirstArrayClass {
         return countOfEvenNumbers;
     }
 
-    public Integer getMaxElement (int[] array) {
-        if(array.length == 0)
+    public Integer getMaxElement(int[] array) {
+        if (array.length == 0)
             return null;
         array = Arrays.stream(array).sorted().toArray();
         return array[array.length - 1];
     }
 
-    public int getSumOfEvenIndexes (int[] array) {
+    public int getSumOfEvenIndexes(int[] array) {
         int sum = 0;
-        for (int i = 0; i < array.length; i+=2)
-            sum+= array[i];
+        for (int i = 0; i < array.length; i += 2)
+            sum += array[i];
         return sum;
+    }
+
+    public boolean getWhoHasTheMostDivisible(int[] array) {
+        int firstElement = 0;
+        int lastElement = 0;
+        for (int i : array) {
+                if (array[i] % array[0] == 0)
+                    firstElement++;
+        }
+        for (int i : array) {
+            if (array[i] % array[array.length - 1] == 0)
+                lastElement++;
+        }
+        return firstElement > lastElement;
     }
 }
 

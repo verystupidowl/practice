@@ -158,4 +158,11 @@ public class FirstArrayClassTest {
         int sum = object.getSumOfEvenIndexes(array);
         Assert.assertEquals(sum, 1243);
     }
+
+    @Test
+    public void testGetWhoHasTheMostDivisible() {
+        int[] array = {3, 6, 65, 34, 87, 2};
+        boolean whoHasTheMostDivisible = object.getWhoHasTheMostDivisible(array);
+        Assert.assertTrue(whoHasTheMostDivisible);
+    }
 }
