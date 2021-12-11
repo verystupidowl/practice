@@ -34,4 +34,14 @@ public class FirstArrayClass {
         }
         return array;
     }
+
+    public int[] getFibonacciArray(int size) {
+        int[] array = new int[size];
+        array[0] = 0;
+        array[1] = 1;
+        for (int i = 1; i < array.length - 1; i++) {
+            array[i + 1] = array[i] + array[i - 1];
+        }
+        return array;
+    }
 }

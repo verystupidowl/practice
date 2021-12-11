@@ -35,4 +35,11 @@ public class FirstArrayClassTest {
         int[] knownArray = {10, 8, 6, 4, 2};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetFibonacciArray() {
+        int[] array = object.getFibonacciArray(5);
+        int[] knownArray = {0, 1, 1, 2, 3};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
