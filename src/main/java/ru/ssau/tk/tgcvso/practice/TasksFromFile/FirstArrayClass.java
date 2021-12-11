@@ -92,5 +92,22 @@ public class FirstArrayClass {
         }
         return array;
     }
+
+    public int[] getArithmeticSequence(int size, int firstElement, int difference) {
+        int[] array = new int[size];
+        array[0] = firstElement;
+        for (int i = 1; i < array.length; i++)
+            array[i] = array[i - 1] + difference;
+        return array;
+    }
+
+    public int[] getGeometricSequence(int size, int firstElement, int difference) {
+        int[] array = new int[size];
+        array[0] = firstElement;
+        for (int i = 1; i < array.length; i++)
+            array[i] = array[i - 1] * difference;
+        return array;
+    }
+
 }
 

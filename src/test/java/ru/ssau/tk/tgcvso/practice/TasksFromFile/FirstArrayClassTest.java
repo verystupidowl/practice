@@ -79,4 +79,18 @@ public class FirstArrayClassTest {
         int[] knownArray = {1, 2, 4, 5, 7, 8, 10, 11, 13, 14};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetArithmeticSequence() {
+        int[] array = object.getArithmeticSequence(7, 10, 3);
+        int[] knownArray = {10, 13, 16, 19, 22, 25, 28};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
+
+    @Test
+    public void testGetGeometricSequence() {
+        int[] array = object.getGeometricSequence(5, 7, 10);
+        int[] knownArray = {7, 70, 700, 7000, 70000};
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
