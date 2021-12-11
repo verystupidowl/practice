@@ -136,4 +136,11 @@ public class FirstArrayClassTest {
         boolean isContain = object.getContainsNull(array);
         Assert.assertTrue(isContain);
     }
+
+    @Test
+    public void testGetCountOfEvenNumbers() {
+        int[] array = {53, 54, 575, 856, 645};
+        int count = object.getCountOfEvenNumbers(array);
+        Assert.assertEquals(count, 2);
+    }
 }

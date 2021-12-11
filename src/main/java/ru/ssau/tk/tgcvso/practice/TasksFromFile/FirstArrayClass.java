@@ -180,12 +180,21 @@ public class FirstArrayClass {
         return false;
     }
 
-    public boolean getContainsNull(Integer[] array){
-        for(Integer i : array) {
-            if(i == null)
+    public boolean getContainsNull(Integer[] array) {
+        for (Integer i : array) {
+            if (i == null)
                 return true;
         }
         return false;
+    }
+
+    public int getCountOfEvenNumbers(int[] array) {
+        int countOfEvenNumbers = 0;
+        for (int i : array){
+            if(i % 2 == 0)
+                countOfEvenNumbers++;
+        }
+        return countOfEvenNumbers;
     }
 }
 
