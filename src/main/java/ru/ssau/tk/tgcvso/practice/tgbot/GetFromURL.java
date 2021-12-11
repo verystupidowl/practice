@@ -73,10 +73,8 @@ public class GetFromURL {
                     src = element1.toString();
                     stringList.add(src);
                 }
-                for (Element element : lyrics) {
-                    text = lyrics.toString();                                                                           //assigning the entire code in the class to the variable text
-                    text = cleanHTMLCode(text);                                                                         //cleaning text from HTML marks
-                }
+                text = lyrics.toString();                                                                           //assigning the entire code in the class to the variable text
+                text = cleanHTMLCode(text);                                                                         //cleaning text from HTML marks
                 /*for (String s : stringList) {
                     System.out.println(s);
                 }*/
