@@ -179,5 +179,13 @@ public class FirstArrayClass {
         }
         return false;
     }
+
+    public boolean getContainsNull(Integer[] array){
+        for(Integer i : array) {
+            if(i == null)
+                return true;
+        }
+        return false;
+    }
 }
 

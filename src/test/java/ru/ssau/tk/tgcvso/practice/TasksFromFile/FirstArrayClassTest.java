@@ -129,4 +129,11 @@ public class FirstArrayClassTest {
         boolean isContain = object.getContainsNumber(array, 205);
         Assert.assertTrue(isContain);
     }
+
+    @Test
+    public void testGetContainsNull() {
+        Integer[] array = {43, 64, 653, null, 6424, 75};
+        boolean isContain = object.getContainsNull(array);
+        Assert.assertTrue(isContain);
+    }
 }
