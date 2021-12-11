@@ -143,4 +143,12 @@ public class FirstArrayClassTest {
         int count = object.getCountOfEvenNumbers(array);
         Assert.assertEquals(count, 2);
     }
+
+    @Test
+    public void testGetMaxElement() {
+        int[] array = {5, 35, 764, 53436, 76, 46};
+        Integer knownMax = 53436;
+        Integer max = object.getMaxElement(array);
+        Assert.assertEquals(max, knownMax);
+    }
 }

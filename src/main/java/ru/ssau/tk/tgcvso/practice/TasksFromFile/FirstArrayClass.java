@@ -1,5 +1,7 @@
 package ru.ssau.tk.tgcvso.practice.TasksFromFile;
 
+import java.util.Arrays;
+
 public class FirstArrayClass {
     public double[] getArrayBySize(int size) {
         return new double[size];
@@ -190,11 +192,18 @@ public class FirstArrayClass {
 
     public int getCountOfEvenNumbers(int[] array) {
         int countOfEvenNumbers = 0;
-        for (int i : array){
-            if(i % 2 == 0)
+        for (int i : array) {
+            if (i % 2 == 0)
                 countOfEvenNumbers++;
         }
         return countOfEvenNumbers;
+    }
+
+    public Integer getMaxElement (int[] array) {
+        if(array.length == 0)
+            return null;
+        array = Arrays.stream(array).sorted().toArray();
+        return array[array.length - 1];
     }
 }
 
