@@ -39,8 +39,8 @@ public class GetFromURL {
                     src = element1.toString();
                     stringList.add(src);
                 }
-                for(String s : stringList){
-                    if(s.contains("property=\"twitter:image\""))
+                for (String s : stringList) {
+                    if (s.contains("property=\"twitter:image\""))
                         src = s.replaceAll("<meta content=\"", "").replaceAll("\" property=\"twitter:image\">", "");
 
                 }
@@ -53,7 +53,6 @@ public class GetFromURL {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(src);
         return src;
     }
 

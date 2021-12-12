@@ -3,17 +3,8 @@ package ru.ssau.tk.tgcvso.practice.tgbot.DataBase;
 public class UserName {
     private String username;
     private String firstName;
-    private int userID;
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public UserName(){
+    public UserName() {
 
     }
 

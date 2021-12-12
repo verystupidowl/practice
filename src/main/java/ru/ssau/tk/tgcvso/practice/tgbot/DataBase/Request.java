@@ -20,10 +20,11 @@ public class Request {
         this.userName = userName;
     }
 
-    public Request(){
+    public Request() {
 
     }
-    public Request(String request, UserName username){
+
+    public Request(String request, UserName username) {
         this.request = request;
         this.userName = username;
     }

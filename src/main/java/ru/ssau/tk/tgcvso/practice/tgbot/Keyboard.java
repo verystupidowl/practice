@@ -14,7 +14,6 @@ import java.util.Locale;
 public class Keyboard {
     public synchronized static void setArtistButtons(SendMessage sendMessage, String message) {
         String text = GetFromURL.otherSongs(message);                                                                   //getting the most popular songs by this artist
-        System.out.println(text);
         if (!text.equals(Consts.DEFAULT_TEXT) && !text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {                                                                        //checking for existence song
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                        //creating a keyboard
             sendMessage.setReplyMarkup(replyKeyboardMarkup);                                                            //creating a replyMarkup
@@ -32,38 +31,39 @@ public class Keyboard {
         }
     }
 
-    public synchronized static void setDBButtons (SendMessage sendMessage, String username) {
-        List<String> stringList = DataBase.getFromDB(username);
-        if (!stringList.isEmpty()) {
-            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-            sendMessage.setReplyMarkup(replyKeyboardMarkup);
-            replyKeyboardMarkup.setSelective(true);
-            replyKeyboardMarkup.setResizeKeyboard(true);
-            replyKeyboardMarkup.setOneTimeKeyboard(false);
+    public synchronized static void setDbButtons(SendMessage sendMessage, String username, List<String> stringList) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
 
 
-            List<KeyboardRow> keyboard = new ArrayList<>();
+        List<KeyboardRow> keyboard = new ArrayList<>();
 
 
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(new KeyboardButton(stringList.get(stringList.size() - 1)));
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton(stringList.get(stringList.size() - 1)));
+        keyboard.add(keyboardFirstRow);
 
-
+        if (stringList.size() > 1) {
             KeyboardRow keyboardSecondRow = new KeyboardRow();
             keyboardSecondRow.add(new KeyboardButton(stringList.get(stringList.size() - 2)));
-
-            KeyboardRow keyboardThirdRow = new KeyboardRow();
-            keyboardThirdRow.add(new KeyboardButton(stringList.get(stringList.size() - 3)));
-
-            KeyboardRow keyboardRow = new KeyboardRow();
-            keyboardRow.add(new KeyboardButton("Вернуться в меню"));
-
-            keyboard.add(keyboardFirstRow);
             keyboard.add(keyboardSecondRow);
-            keyboard.add(keyboardThirdRow);
-            keyboard.add(keyboardRow);
-            replyKeyboardMarkup.setKeyboard(keyboard);
+
+            if (stringList.size() > 2) {
+                KeyboardRow keyboardThirdRow = new KeyboardRow();
+                keyboardThirdRow.add(new KeyboardButton(stringList.get(stringList.size() - 3)));
+
+
+                keyboard.add(keyboardThirdRow);
+
+            }
         }
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(new KeyboardButton("Вернуться в меню"));
+        keyboard.add(keyboardRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
     public synchronized static void setRulesButtons(SendMessage sendMessage) {
@@ -96,7 +96,6 @@ public class Keyboard {
             }
             k = 1;
             string[i] = stringBuilder.toString().trim();
-            System.out.println(string[i]);
         }
         stringBuilder.setLength(0);
         if (!string[1].isEmpty()) {                                                                                     //checking whether array is empty
@@ -199,7 +198,7 @@ public class Keyboard {
         keyboardThirdRow.add(new KeyboardButton("Топ - чарт⬆️"));
 
         KeyboardRow keyboardFourthRow = new KeyboardRow();
-        keyboardFourthRow.add(new KeyboardButton("Последние запросы"));
+        keyboardFourthRow.add(new KeyboardButton("Последние запросы\uD83D\uDD19"));
 
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);

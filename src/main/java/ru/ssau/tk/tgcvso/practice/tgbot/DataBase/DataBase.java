@@ -74,9 +74,7 @@ public class DataBase {
             statement.setString(1, request.getUserName().getUsername());
             statement.setString(2, request.getUserName().getFirstName());
             statement.setString(3, request.getRequest());
-            int row = statement.executeUpdate();
-            if (row > 0)
-                System.out.println("new user has been inserted");
+            statement.executeUpdate();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

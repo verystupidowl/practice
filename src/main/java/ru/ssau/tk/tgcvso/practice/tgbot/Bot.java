@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,11 +43,16 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     break;
                 }
-                case "Последние запросы": {
+                case "Последние запросы\uD83D\uDD19": {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText("Ваши последние запросы:");
-                    Keyboard.setDBButtons(sendMessage, userId);
+                    List<String> stringList = DataBase.getFromDB(userId);
+                    if (!stringList.isEmpty()) {
+                        Keyboard.setDbButtons(sendMessage, userId, stringList);
+                    } else {
+                        sendMessage.setText("У вас пока не было запросов\uD83E\uDD37\u200D♂");
+                    }
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {

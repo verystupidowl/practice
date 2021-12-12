@@ -46,7 +46,7 @@ public class KeyboardInline {
     }
 
     public static SendMessage sendInlineKeyboardAboutSong(String chatId, String message, String text) {
-        if(!text.equals(Consts.DEFAULT_TEXT)) {
+        if (!text.equals(Consts.DEFAULT_TEXT)) {
             InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
             List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
@@ -54,7 +54,6 @@ public class KeyboardInline {
             InlineKeyboardButton button1 = new InlineKeyboardButton();                                                      //creating a button
             button1.setText("О песне(Нажмите на сообщение)");
             String info = "/" + message.replaceAll(" ", "_");
-            System.out.println(info);
             button1.setCallbackData(info);
 
             rowInline.add(button1);
