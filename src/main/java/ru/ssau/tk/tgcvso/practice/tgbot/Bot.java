@@ -6,9 +6,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.DataBase;
-import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.Request;
-import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.UserName;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,25 +25,11 @@ public class Bot extends TelegramLongPollingBot {
             String chatId = update.getMessage().getChatId().toString();             //chat ID
             String userFirstName = update.getMessage().getChat().getFirstName();    //username
             String userId = update.getMessage().getChat().getUserName();            //user ID
-            UserName userName = new UserName(userId, userFirstName);
-            Request request = new Request(message, userName);
             switch (message) {
                 case "Привет": {
                     SendMessage sendMessage = new SendMessage();                    //create an object of SendMessage
                     sendMessage.setChatId(chatId);                                  //set chat ID
                     sendMessage.setText("Ну привет, " + userFirstName + "\uD83D\uDC4B\uD83C\uDFFB"); //set text
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                }
-                case "Последние запросы": {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setChatId(chatId);
-                    sendMessage.setText("Ваши последние запросы:");
-                    Keyboard.setDBButtons(sendMessage, userId);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -137,13 +120,12 @@ public class Bot extends TelegramLongPollingBot {
                 default: {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
-                    DataBase.addToDB(request);
-                    if (message.indexOf('/') != -1) {
+                    if(message.indexOf('/') != -1){
                         sendMessage.setText(GetFromURL.getInfoAboutSong(message.substring(1).replaceAll("_", "-")));
                         sendMessage.setChatId(chatId);
-                        try {
+                        try{
                             execute(sendMessage);
-                        } catch (TelegramApiException e) {
+                        }catch (TelegramApiException e){
                             e.printStackTrace();
                         }
                     } else if (message.indexOf('*') != -1) {                               //checking for existence of symbol * if "true" message contains artist name*
@@ -255,9 +237,9 @@ public class Bot extends TelegramLongPollingBot {
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
-                            try {
+                            try{
                                 execute(sendMessage1);
-                            } catch (TelegramApiException e) {
+                            }catch (TelegramApiException e){
                                 e.printStackTrace();
                             }
                             break;

@@ -5,7 +5,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.DataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,40 +26,6 @@ public class Keyboard {
             KeyboardRow keyboardRow1 = new KeyboardRow();
             keyboardRow1.add(new KeyboardButton(text));
             keyboard.add(keyboardRow1);                                                                                 //adding keyboard rows to a list
-            keyboard.add(keyboardRow);
-            replyKeyboardMarkup.setKeyboard(keyboard);
-        }
-    }
-
-    public synchronized static void setDBButtons (SendMessage sendMessage, String username) {
-        List<String> stringList = DataBase.getFromDB(username);
-        if (!stringList.isEmpty()) {
-            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-            sendMessage.setReplyMarkup(replyKeyboardMarkup);
-            replyKeyboardMarkup.setSelective(true);
-            replyKeyboardMarkup.setResizeKeyboard(true);
-            replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-
-            List<KeyboardRow> keyboard = new ArrayList<>();
-
-
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add(new KeyboardButton(stringList.get(stringList.size() - 1)));
-
-
-            KeyboardRow keyboardSecondRow = new KeyboardRow();
-            keyboardSecondRow.add(new KeyboardButton(stringList.get(stringList.size() - 2)));
-
-            KeyboardRow keyboardThirdRow = new KeyboardRow();
-            keyboardThirdRow.add(new KeyboardButton(stringList.get(stringList.size() - 3)));
-
-            KeyboardRow keyboardRow = new KeyboardRow();
-            keyboardRow.add(new KeyboardButton("Вернуться в меню"));
-
-            keyboard.add(keyboardFirstRow);
-            keyboard.add(keyboardSecondRow);
-            keyboard.add(keyboardThirdRow);
             keyboard.add(keyboardRow);
             replyKeyboardMarkup.setKeyboard(keyboard);
         }
@@ -198,13 +163,9 @@ public class Keyboard {
         KeyboardRow keyboardThirdRow = new KeyboardRow();
         keyboardThirdRow.add(new KeyboardButton("Топ - чарт⬆️"));
 
-        KeyboardRow keyboardFourthRow = new KeyboardRow();
-        keyboardFourthRow.add(new KeyboardButton("Последние запросы"));
-
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
         keyboard.add(keyboardThirdRow);
-        keyboard.add(keyboardFourthRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 }
