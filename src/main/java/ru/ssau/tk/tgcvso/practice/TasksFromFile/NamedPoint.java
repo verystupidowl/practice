@@ -1,10 +1,17 @@
 package ru.ssau.tk.tgcvso.practice.TasksFromFile;
 
-public class NamedPoint implements Resettable {
+public class NamedPoint extends Point {
     private String name;
 
-    @Override
-    public void reset() {
-        name = "Absent";
+    public NamedPoint(double x, double y, double z) {
+        super(x, y, z);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
     }
 }
