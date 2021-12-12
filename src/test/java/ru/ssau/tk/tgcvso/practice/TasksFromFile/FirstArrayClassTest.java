@@ -181,4 +181,15 @@ public class FirstArrayClassTest {
         int[] knownArray = {534, 65, 654, 74, 34, 7};
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetBitwiseNotArray() {
+        int[] array = {54, 5234, 754, 552, 86};
+        int[] bitwiseNot = {-55, -5235, -755, -553, -87};
+        int[] knownArray = {54, 5234, 754, 552, 86};
+        object.getBitwiseNotArray(array);
+        Assert.assertTrue(Arrays.equals(array, bitwiseNot));
+        object.getBitwiseNotArray(array);
+        Assert.assertTrue(Arrays.equals(array, knownArray));
+    }
 }
