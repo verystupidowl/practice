@@ -19,20 +19,30 @@ import java.util.Locale;
 
 public class GetFromURL {
     static final int TIMEOUT = 1000;
+
     public static String getPhoto(String songName) {        //method for finding a URL of the artist's photo
         String src = "Изображение не найдено";
+        List<String> stringList = new ArrayList<>();
         int i = 0;
         songName = songName.replace('*', ' ').trim();   //removing character *
         try {
             while (src.equals("Изображение не найдено")) {              //sending requests until it is successful
-                Document doc = Jsoup.connect("https://genius.com/artists/" + songName.toLowerCase(Locale.ROOT))     //connecting to the website
+                Document doc = Jsoup.connect("https://genius.com/artists/" + songName.toLowerCase(Locale.ROOT).replaceAll(" ", "- "))     //connecting to the website
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                Elements pic = doc.getElementsByAttributeValue("class", "profile_header");                              //opening a certain class in HTML code
+                //Elements pic = doc.getElementsByAttributeValue("class", "profile_header");                              //opening a certain class in HTML code
+                Elements pic = doc.getElementsByTag("meta");
                 for (Element element1 : pic) {
-                    src = element1.select("div[style]").first().attr("style");                        //scanning certain tags in HTML
-                    src = src.substring(23).replaceAll("\'\\);", "");                                   //removing HTML marks
+                    //src = element1.select("div[style]").first().attr("style");
+                    //src = src.substring(23).replaceAll("\'\\);", "");
+                    src = element1.toString();
+                    stringList.add(src);
+                }
+                for(String s : stringList){
+                    if(s.contains("property=\"twitter:image\""))
+                        src = s.replaceAll("<meta content=\"", "").replaceAll("\" property=\"twitter:image\">", "");
+
                 }
                 i++;
                 if (i > 10) {
@@ -43,13 +53,14 @@ public class GetFromURL {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(src);
         return src;
     }
 
-    public static String getInfoAboutSong(String songName){
+    public static String getInfoAboutSong(String songName) {
         String info = "Не найдено";
         int k = 0;
-        String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
+        String url = "https://genius.com/" + songName.replace(' ', '-').replaceAll("\\.", "").toLowerCase(Locale.ROOT) + "-lyrics/";
         while (info.equals("Не найдено")) {
             try {
                 Document document = Jsoup.connect(url)
@@ -61,18 +72,16 @@ public class GetFromURL {
                 for (Element element : infos) {
                     info = cleanHTMLCode(element.toString()).trim();
                 }
-            }
-            catch (SocketTimeoutException e){
+            } catch (SocketTimeoutException e) {
                 e.printStackTrace();
                 return "Сервер не отвечает, повторите попытку";
-            }
-            catch (HttpStatusException e){
+            } catch (HttpStatusException e) {
                 return "Не знаю такого";
             } catch (IOException e) {
                 e.printStackTrace();
             }
             k++;
-            if(k > 5){
+            if (k > 5) {
                 return "Не найдено";
             }
         }
@@ -84,7 +93,7 @@ public class GetFromURL {
         String src = "Изображение не найдено";
         int i = 0;
         List<String> stringList = new ArrayList<>();
-        String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
+        String url = "https://genius.com/" + songName.replace(' ', '-').replaceAll("\\.", "").toLowerCase(Locale.ROOT) + "-lyrics/";
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
                 /*final WebClient webClient = new WebClient(BrowserVersion.CHROME);
@@ -148,11 +157,10 @@ public class GetFromURL {
                     stringList.add(text);
                 }
             }
-        }catch (SocketTimeoutException e){
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
             return Consts.SERVER_IS_NOT_RESPONDING;
-        }
-        catch (HttpStatusException e) {
+        } catch (HttpStatusException e) {
             return Consts.DEFAULT_TEXT;
         } catch (IOException e) {
             e.printStackTrace();
@@ -191,7 +199,7 @@ public class GetFromURL {
         List<Integer> blackList = new ArrayList<>();
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                Document doc = Jsoup.connect("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT).replace('*', ' ').replaceAll(" ", ""))
+                Document doc = Jsoup.connect("https://genius.com/artists/" + artistName.toLowerCase(Locale.ROOT).replace('*', ' ').replaceAll(" ", "").replaceAll("\\.", ""))
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
