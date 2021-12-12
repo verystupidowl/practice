@@ -1,12 +1,69 @@
 package ru.ssau.tk.tgcvso.practice.tgbot.DataBase;
 
+import lombok.SneakyThrows;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataBase {
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Ghbdtn12345");
+        return DriverManager.getConnection(getUrlConnection(), getUserDB(), getPassword());
+    }
+
+    @SneakyThrows
+    private static String getUrlConnection() {
+        File file = new File("src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/DataBase/secret/UrlConnection.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuilder url = new StringBuilder();
+        try {
+            String s = br.readLine();
+            url.insert(0, s);
+            while ((s = br.readLine()) != null)
+                url.insert(url.length() + 1, s);
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return url.toString();
+    }
+
+    @SneakyThrows
+    private static String getUserDB() {
+        File file = new File("src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/DataBase/secret/UserDB.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuilder name = new StringBuilder();
+        try {
+            String s = br.readLine();
+            name.insert(0, s);
+            while ((s = br.readLine()) != null)
+                name.insert(name.length() + 1, s);
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return name.toString();
+    }
+
+    @SneakyThrows
+    private static String getPassword() {
+        File file = new File("src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/DataBase/secret/password.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuilder password = new StringBuilder();
+        try {
+            String s = br.readLine();
+            password.insert(0, s);
+            while ((s = br.readLine()) != null)
+                password.insert(password.length() + 1, s);
+            br.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return password.toString();
     }
 
     public static void addToDB(Request request) {

@@ -27,3 +27,4 @@ target
 hs_err_pid*
 
 /src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/BotToken/
+/src/main/java/ru/ssau/tk/tgcvso/practice/tgbot/DataBase/secret/
