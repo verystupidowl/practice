@@ -171,13 +171,15 @@ public class GetFromURL {
         String track;
         List<String> list = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("https://genius.com/#top-songs")
-                    .userAgent("Chrome/81.0.4044.138")
+            Document doc = Jsoup.connect("https://genius.com/")
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0;" +
+                            "Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 " +
+                            "Safari/537.36")
                     .referrer("http://www.google.com")
                     .get();
-            Elements url = doc.getElementsByAttributeValue("class", "PageGridFull-idpot7-0 jeWXO");                     //class with top chart songs of a day
-            for (Element element : url.select("a")) {                                                                   //CSS tag in HTML
-                track = element.attr("href");                                                                 //attribute
+            Elements url = doc.getElementsByAttributeValue("class", "PageGridFull-idpot7-0 jeWXO");
+            for (Element element : url.select("a")) {
+                track = element.attr("href");
                 list.add(track);
                 list.add("\n");
             }

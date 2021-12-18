@@ -1,6 +1,7 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
 import lombok.SneakyThrows;
+import org.apache.poi.ss.formula.functions.T;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -14,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,12 +117,22 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
                     List<String> list = GetFromURL.getTopChart();                        //creating collection of top songs
-                    sendMessage.setText("Топ - чарт на сегодня:");
-                    Keyboard.setChartButtons(sendMessage, list);                        //creating a keyboard with buttons - top tracks
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
+                    if(!list.isEmpty()) {
+                        sendMessage.setText("Топ - чарт на сегодня:");
+                        Keyboard.setChartButtons(sendMessage, list);                        //creating a keyboard with buttons - top tracks
+                        try {
+                            execute(sendMessage);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                        sendMessage.setText(Consts.SERVER_IS_NOT_RESPONDING);
+                        try {
+                            execute(sendMessage);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
                 }

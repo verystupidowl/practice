@@ -24,6 +24,10 @@ public class Request {
 
     }
 
+    public Request(String request) {
+        this.request = request;
+    }
+
     public Request(String request, UserName username) {
         this.request = request;
         this.userName = username;
