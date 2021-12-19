@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.DataBase;
 import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.Request;
 import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.UserName;
+import ru.ssau.tk.tgcvso.practice.tgbot.GetFromUrl.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -116,10 +117,11 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
-                    List<String> list = GetFromURL.getTopChart();                        //creating collection of top songs
+                    GetTopChart getTopChart = new GetTopChart();
+                    List<String> list = getTopChart.getFromURL();
                     if(!list.isEmpty()) {
                         sendMessage.setText("Топ - чарт на сегодня:");
-                        Keyboard.setChartButtons(sendMessage, list);                        //creating a keyboard with buttons - top tracks
+                        Keyboard.setChartButtons(sendMessage, list);
                         try {
                             execute(sendMessage);
                         } catch (TelegramApiException e) {
@@ -155,17 +157,19 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage.setChatId(chatId);
                     DataBase.addToDB(request);
                     if (message.indexOf('/') != -1) {
-                        sendMessage.setText(GetFromURL.getInfoAboutSong(message.substring(1).replaceAll("_", "-")));
+                        GetInfoAboutSong getInfoAboutSong = new GetInfoAboutSong(message.substring(1).replaceAll("_", "-"));
+                        sendMessage.setText(getInfoAboutSong.getFromURL().get(0));
                         sendMessage.setChatId(chatId);
                         try {
                             execute(sendMessage);
                         } catch (TelegramApiException e) {
                             e.printStackTrace();
                         }
-                    } else if (message.indexOf('*') != -1) {                               //checking for existence of symbol * if "true" message contains artist name*
+                    } else if (message.indexOf('*') != -1) {
                         StringBuilder stringBuilder = new StringBuilder();
-                        String text = GetFromURL.getTopSongs(message.toLowerCase(Locale.ROOT));//creating a string variable, which contains top songs of artist
-                        if (text.equals("Сервер не отвечает, повторите попытку")) {               //checking for some problems with connection to genius
+                        GetTopSongs getTopSongs = new GetTopSongs(message.toLowerCase(Locale.ROOT));
+                        String text = getTopSongs.getFromURL().get(0);
+                        if (text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {
                             sendMessage.setText(text);
                             try {
                                 execute(sendMessage);
@@ -173,9 +177,9 @@ public class Bot extends TelegramLongPollingBot {
                                 e.printStackTrace();
                             }
                         }
-                        if (!text.equals(Consts.WITHOUT_SONGS)) {                   //checking for existence of songs
+                        if (!text.equals(Consts.WITHOUT_SONGS)) {
                             LogsProcessing.logsProcessing(userId, message);
-                            if (text.equals(Consts.DEFAULT_TEXT)) {                 //checking for existence of artist name
+                            if (text.equals(Consts.DEFAULT_TEXT)) {
                                 try {
                                     //text = GetFromURL.getSearch(message);
                                     sendMessage.setText(text);
@@ -184,16 +188,17 @@ public class Bot extends TelegramLongPollingBot {
                                     e.printStackTrace();
                                 }
                             } else {
-                                stringBuilder.insert(0, message);             //adding artist name to string builder
-                                stringBuilder.insert(stringBuilder.length(), text); //adding top songs to string builder
-                                sendMessage.setText(stringBuilder.toString());      //set text to the object of SendMessage
+                                stringBuilder.insert(0, message);
+                                stringBuilder.insert(stringBuilder.length(), text);
+                                sendMessage.setText(stringBuilder.toString());
                                 SendPhoto sendPhoto = new SendPhoto();
-                                sendPhoto.setCaption("Самые популярные песни исполнителя " + message.   //adding a caption to a photo
-                                        replace('*', ' ').toUpperCase(Locale.ROOT) +    //removing symbol * from the received from the user artist name
+                                sendPhoto.setCaption("Самые популярные песни исполнителя " + message.
+                                        replace('*', ' ').toUpperCase(Locale.ROOT) +
                                         ":\n(Нажмите, чтобы открыть текст)");
-                                sendPhoto.setPhoto(GetFromURL.getPhoto(message));   //setting a photo from URL
+                                GetPhoto getPhoto = new GetPhoto(message);
+                                sendPhoto.setPhoto(getPhoto.getFromURL().get(0));
                                 sendPhoto.setChatId(chatId);
-                                Keyboard.setSongsButtons(sendMessage, sendPhoto);   //creating keyboard with top songs
+                                Keyboard.setSongsButtons(sendMessage, sendPhoto);
                                 sendMessage.setChatId(chatId);
                                 try {
                                     execute(sendPhoto);
@@ -209,8 +214,9 @@ public class Bot extends TelegramLongPollingBot {
                                 e.printStackTrace();
                             }
                         }
-                    } else {                                                    //if message from user contains artist name + song name
-                        String text = GetFromURL.getFromURL(message);           //receiving lyrics from genius
+                    } else {
+                        GetLyrics getLyrics = new GetLyrics(message);
+                        String text = getLyrics.getFromURL().get(0);
                         LogsProcessing.logsProcessing(userId, message);
                         if (text.length() > 4000 && text.length() < 8000) {     //checking for count of symbols
                             String newText = text.substring(0, 4000);           //splitting
