@@ -1,7 +1,6 @@
 package ru.ssau.tk.tgcvso.practice.tgbot;
 
 import lombok.SneakyThrows;
-import org.apache.poi.ss.formula.functions.T;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -50,7 +49,7 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage.setText("Ваши последние запросы:");
                     List<String> stringList = DataBase.getFromDB(userId);
                     if (!stringList.isEmpty()) {
-                        Keyboard.setDbButtons(sendMessage, userId, stringList);
+                        Keyboard.setDbButtons(sendMessage, stringList);
                     } else {
                         sendMessage.setText("У вас пока не было запросов\uD83E\uDD37\u200D♂");
                     }

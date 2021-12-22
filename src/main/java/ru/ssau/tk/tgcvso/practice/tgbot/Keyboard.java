@@ -34,7 +34,7 @@ public class Keyboard {
         }
     }
 
-    public synchronized static void setDbButtons(SendMessage sendMessage, String username, List<String> stringList) {
+    public synchronized static void setDbButtons(SendMessage sendMessage, List<String> stringList) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);

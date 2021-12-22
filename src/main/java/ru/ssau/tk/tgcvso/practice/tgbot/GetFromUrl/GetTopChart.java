@@ -16,10 +16,8 @@ public class GetTopChart implements GetFromUrl{
         String track;
         List<String> list = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("https://genius.com/")
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0;" +
-                            "Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 " +
-                            "Safari/537.36")
+            Document doc = Jsoup.connect("https://genius.com/#top-songs")
+                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0")
                     .referrer("https://genius.com/")
                     .get();
             Elements url = doc.getElementsByAttributeValue("class", "PageGridFull-idpot7-0 jeWXO");

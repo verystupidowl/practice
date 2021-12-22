@@ -54,7 +54,13 @@ public class KeyboardInline {
             InlineKeyboardButton button1 = new InlineKeyboardButton();                                                      //creating a button
             button1.setText("О песне(Нажмите на сообщение)");
             String info = "/" + message.replaceAll(" ", "_");
-            button1.setCallbackData(info);
+            if (info.length() < 60) {
+                button1.setCallbackData(info);
+            }
+            else{
+                button1.setCallbackData("Не найдено");
+            }
+
 
             rowInline.add(button1);
             rowsInline.add(rowInline);
