@@ -192,4 +192,12 @@ public class FirstArrayClassTest {
         object.getBitwiseNotArray(array);
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
+
+    @Test
+    public void testGetMinElement() {
+        int[] array = {5, 35, 764, 53436, 76, 46};
+        Integer knownMin = 5;
+        Integer min = object.getMinElement(array);
+        Assert.assertEquals(min, knownMin);
+    }
 }
