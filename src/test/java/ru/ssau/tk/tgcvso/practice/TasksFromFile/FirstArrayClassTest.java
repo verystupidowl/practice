@@ -187,9 +187,9 @@ public class FirstArrayClassTest {
         int[] array = {54, 5234, 754, 552, 86};
         int[] bitwiseNot = {-55, -5235, -755, -553, -87};
         int[] knownArray = {54, 5234, 754, 552, 86};
-        object.getBitwiseNotArray(array);
+        object.bitwiseNotArray(array);
         Assert.assertTrue(Arrays.equals(array, bitwiseNot));
-        object.getBitwiseNotArray(array);
+        object.bitwiseNotArray(array);
         Assert.assertTrue(Arrays.equals(array, knownArray));
     }
 
@@ -199,5 +199,16 @@ public class FirstArrayClassTest {
         Integer knownMin = 5;
         Integer min = object.getMinElement(array);
         Assert.assertEquals(min, knownMin);
+    }
+
+    @Test
+    public void testTestGetBitwiseNotArray() {
+        int[] array = {54, 5234, 754, 552, 86};
+        int[] bitwiseNot = {-55, -5235, -755, -553, -87};
+        int[] knownArray = {54, 5234, 754, 552, 86};
+        int[] newArray1 = object.getBitwiseNotArray(array);
+        Assert.assertTrue(Arrays.equals(newArray1, bitwiseNot));
+        int[] newArray2 = object.getBitwiseNotArray(newArray1);
+        Assert.assertTrue(Arrays.equals(newArray2, knownArray));
     }
 }

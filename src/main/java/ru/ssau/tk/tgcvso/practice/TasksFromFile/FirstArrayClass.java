@@ -259,10 +259,17 @@ public class FirstArrayClass {
         array[maxIndex] = minElement;
     }
 
-    public void getBitwiseNotArray(int[] array) {
+    public void bitwiseNotArray(int[] array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = ~array[i];
         }
+    }
+
+    public int[] getBitwiseNotArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = ~array[i];
+        }
+        return array;
     }
 }
 
