@@ -266,10 +266,11 @@ public class FirstArrayClass {
     }
 
     public int[] getBitwiseNotArray(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            array[i] = ~array[i];
+        int[] newArray = Arrays.copyOf(array, array.length);
+        for (int i = 0; i < newArray.length; i++) {
+            newArray[i] = ~newArray[i];
         }
-        return array;
+        return newArray;
     }
 }
 
