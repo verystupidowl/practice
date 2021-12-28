@@ -1,5 +1,6 @@
 package ru.ssau.tk.tgcvso.practice.TasksFromFile;
 
+import java.nio.charset.Charset;
 import java.util.Objects;
 
 public class FirstStringClass {
@@ -139,5 +140,17 @@ public class FirstStringClass {
         }
         string.reverse();
         return string.toString();
+    }
+
+    public String numberEnumerationString(int number) {
+        StringBuilder string = new StringBuilder(number);
+        for (int i = 0; i < number; i++) {
+            string.append(i).append(" ");
+        }
+        return string.toString();
+    }
+
+    public String changingTheStringEncoding(String string, Charset first, Charset second) {
+        return new String(string.getBytes(first), second);
     }
 }
