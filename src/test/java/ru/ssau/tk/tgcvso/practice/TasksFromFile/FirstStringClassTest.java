@@ -35,4 +35,22 @@ public class FirstStringClassTest {
         Assert.assertEquals(object.substringSearch("cocylka", "lka"), 4);
         Assert.assertEquals(object.substringSearch("kilometre", "awq"), -1);
     }
+
+    @Test
+    public void testLastIndexOfSubstringInStringInFirstHalf() {
+        FirstStringClass object = new FirstStringClass();
+        Assert.assertEquals(object.lastIndexOfSubstringInStringInFirstHalf("Floccinaucinihilipilification", "oc"), 2);
+        Assert.assertEquals(object.lastIndexOfSubstringInStringInFirstHalf("Floccinaucinihilipilification", "nauc"), 6);
+        Assert.assertEquals(object.lastIndexOfSubstringInStringInFirstHalf("Floccinaucinihilipilification", "ihi"), 12);
+        Assert.assertEquals(object.lastIndexOfSubstringInStringInFirstHalf("Floccinaucinihilipilification", "zxy"), -1);
+    }
+
+    @Test
+    public void testGetNumberOfLinesWithSpecifiedStartAndEnd() {
+        FirstStringClass object = new FirstStringClass();
+        String[] array = {"asxdoktr", "asxutyopi", "gyrteopi"};
+        Assert.assertEquals(object.getNumberOfLinesWithSpecifiedStartAndEnd(array, "asx", "opi"), 1);
+        array = new String[]{"oufrtsqp", "ghutyinsqp", "ghujfoisesqp"};
+        Assert.assertEquals(object.getNumberOfLinesWithSpecifiedStartAndEnd(array, "ghu", "sqp"), 2);
+    }
 }
