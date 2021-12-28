@@ -1,9 +1,36 @@
 package ru.ssau.tk.tgcvso.practice.TasksFromFile;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class FirstStringClass {
+    public static void main(String[] args) {
+        FirstStringClass object = new FirstStringClass();
+        object.studyingCharacterEscaping();
+        Person person = new Person(Gender.MALE, "Алексей", "Маклов", 12345);
+        Point point = new Point(2, 5, 9);
+        NamedPoint namedPoint = new NamedPoint(13, 4, 7, "Джон");
+        Matrix matrix = new Matrix(2, 3);
+        matrix.setAt(0, 1, 23);
+        matrix.setAt(1, 0, 9);
+        matrix.setAt(1, 2, 11);
+        object.descriptionOfTheObject(person);
+        System.out.println();
+        object.descriptionOfTheObject(point);
+        System.out.println();
+        object.descriptionOfTheObject(namedPoint);
+        System.out.println();
+        object.descriptionOfTheObject(matrix);
+        System.out.println(object.numberEnumerationString(10000));
+        System.out.println(Charset.defaultCharset());
+        System.out.println(object.changingTheStringEncoding("megamind", StandardCharsets.UTF_8, StandardCharsets.UTF_16));
+        System.out.println(object.changingTheStringEncoding("megamind", StandardCharsets.UTF_8, StandardCharsets.UTF_16BE));
+        System.out.println(object.changingTheStringEncoding("megamind", StandardCharsets.UTF_8, StandardCharsets.UTF_16LE));
+        System.out.println(object.changingTheStringEncoding("megamind", StandardCharsets.UTF_8, StandardCharsets.US_ASCII));
+        System.out.println(object.changingTheStringEncoding("megamind", StandardCharsets.UTF_8, StandardCharsets.ISO_8859_1));
+    }
+
     public void stringCharactersInTheConsole(String string) {
         for (int i = 0; i < string.length(); i++) {
             System.out.println(string.charAt(i));
