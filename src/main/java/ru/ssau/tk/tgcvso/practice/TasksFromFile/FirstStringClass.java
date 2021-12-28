@@ -70,4 +70,36 @@ public class FirstStringClass {
         }
         return count;
     }
+
+    public int getNumberOfLinesWithSpecifiedStartAndEndWithoutSpaces(String[] arrayString, String prefix, String postfix) {
+        int count = 0;
+        String temp;
+        for (String string : arrayString) {
+            temp = string.trim();
+            if (temp.startsWith(prefix) && temp.endsWith(postfix)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public String replaceAllSubstringsInString(String string, String replaceable, String placeholder) {
+        String resultOfMethod = string;
+        int i = 0;
+        while (resultOfMethod.contains(replaceable)) {
+            if (i == 100) {
+                break;
+            }
+            resultOfMethod = resultOfMethod.replaceAll(replaceable, placeholder);
+            i++;
+        }
+        return resultOfMethod;
+    }
+
+    public String searchASubstringWithConditions(String string, int from, int to) {
+        if (from >= to) {
+            return null;
+        }
+        return string.substring((Math.max(from, 0)), (Math.min(to, string.length())));
+    }
 }

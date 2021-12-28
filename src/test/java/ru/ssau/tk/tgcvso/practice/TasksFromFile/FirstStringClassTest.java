@@ -53,4 +53,32 @@ public class FirstStringClassTest {
         array = new String[]{"oufrtsqp", "ghutyinsqp", "ghujfoisesqp"};
         Assert.assertEquals(object.getNumberOfLinesWithSpecifiedStartAndEnd(array, "ghu", "sqp"), 2);
     }
+
+    @Test
+    public void testGetNumberOfLinesWithSpecifiedStartAndEndWithoutSpaces() {
+        FirstStringClass object = new FirstStringClass();
+        String[] array = {" obvporfdsw ", "  ovbnfrd  ", "     ovboutydsw   "};
+        Assert.assertEquals(object.getNumberOfLinesWithSpecifiedStartAndEndWithoutSpaces(array, "ovb", "dsw"), 1);
+        array = new String[]{"  kuhlsnlob ", " kuhmksldvn  ", "   kuhfiudlob   "};
+        Assert.assertEquals(object.getNumberOfLinesWithSpecifiedStartAndEndWithoutSpaces(array, "kuh", "lob"), 2);
+    }
+
+    @Test
+    public void testReplaceAllSubstringsInString() {
+        FirstStringClass object = new FirstStringClass();
+        String string = "dogodogoddo";
+        Assert.assertEquals(object.replaceAllSubstringsInString(string, "do", "us"), "usgousgodus");
+        string = "oboodoboboobbobobobooobob";
+        Assert.assertEquals(object.replaceAllSubstringsInString(string, "obo", "ob"), "obdobboobbobbobbb");
+    }
+
+    @Test
+    public void testSearchASubstringWithConditions() {
+        FirstStringClass object = new FirstStringClass();
+        String string = "Antidisestablishmentarianism";
+        Assert.assertNull(object.searchASubstringWithConditions(string, 8, 6));
+        Assert.assertEquals(object.searchASubstringWithConditions(string, -2, 10), "Antidisest");
+        Assert.assertEquals(object.searchASubstringWithConditions(string, 24, 30), "nism");
+        Assert.assertEquals(object.searchASubstringWithConditions(string, 10, 20), "ablishment");
+    }
 }
