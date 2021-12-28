@@ -1,5 +1,7 @@
 package ru.ssau.tk.tgcvso.practice.TasksFromFile;
 
+import java.util.Objects;
+
 public class FirstStringClass {
     public void stringCharactersInTheConsole(String string) {
         for (int i = 0; i < string.length(); i++) {
@@ -101,5 +103,41 @@ public class FirstStringClass {
             return null;
         }
         return string.substring((Math.max(from, 0)), (Math.min(to, string.length())));
+    }
+
+    public void descriptionOfTheObject(Object object) {
+        System.out.println("Описание объекта: ");
+        System.out.print(object);
+    }
+
+    public String[] splittingAStringIntoSeparateWords(String sourceString) {
+        String[] array = sourceString.split(" ");
+        for (int i = 0; i < array.length; i++) {
+            if (Objects.equals(array[i], "")) {
+                continue;
+            }
+            array[i] = array[i].substring(0, 1).toUpperCase().concat(array[i].substring(1));
+        }
+        return array;
+    }
+
+    public String combiningAllRowsIntoOne(String[] stringArray) {
+        String outPutString = "";
+        for (String string : stringArray) {
+            outPutString = String.join(", ", stringArray);
+        }
+        return outPutString;
+    }
+
+    public String changingLettersToIndexes(String sourceString) {
+        StringBuilder string = new StringBuilder(sourceString);
+        for (int i = 0; i < sourceString.length(); i++) {
+            if (i % 2 == 1) {
+                string.deleteCharAt(i);
+                string.insert(i, i + 1);
+            }
+        }
+        string.reverse();
+        return string.toString();
     }
 }

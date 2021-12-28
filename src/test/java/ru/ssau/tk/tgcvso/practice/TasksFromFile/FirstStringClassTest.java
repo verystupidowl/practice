@@ -81,4 +81,34 @@ public class FirstStringClassTest {
         Assert.assertEquals(object.searchASubstringWithConditions(string, 24, 30), "nism");
         Assert.assertEquals(object.searchASubstringWithConditions(string, 10, 20), "ablishment");
     }
+
+
+    @Test
+    public void testSplittingAStringIntoSeparateWords() {
+        FirstStringClass object = new FirstStringClass();
+        String sourceString = "sign ghost participle adjective uncomplicated";
+        Assert.assertEquals(object.splittingAStringIntoSeparateWords(sourceString), new String[]{"Sign", "Ghost",//
+                "Participle", "Adjective", "Uncomplicated"});
+        sourceString = "bear lynx  bird thor calendar";
+        Assert.assertEquals(object.splittingAStringIntoSeparateWords(sourceString), new String[]{"Bear", "Lynx", "",//
+                "Bird", "Thor", "Calendar"});
+    }
+
+    @Test
+    public void testCombiningAllRowsIntoOne() {
+        FirstStringClass object = new FirstStringClass();
+        String[] stringArray = {"dream", "cubicle", "man"};
+        Assert.assertEquals(object.combiningAllRowsIntoOne(stringArray), "dream, cubicle, man");
+    }
+
+    @Test
+    public void testChangingLettersToIndexes() {
+        FirstStringClass object = new FirstStringClass();
+        String string = "electricity";
+        Assert.assertEquals(object.changingLettersToIndexes(string), "y01i8i6t4e2e");
+        string = "spotted";
+        Assert.assertEquals(object.changingLettersToIndexes(string), "d6t4o2s");
+    }
+
+
 }
