@@ -30,4 +30,44 @@ public class FirstStringClass {
         }
         return result;
     }
+
+    public boolean doTheStringsDifferOnlyInCase(String firstString, String secondString) {
+        if ((firstString == null) || (secondString == null)) {
+            return false;
+        }
+        return ((firstString.equals(secondString)) || (firstString.equalsIgnoreCase(secondString)));
+    }
+
+    public void studyingCharacterEscaping() {
+        int i = 0;
+        System.out.println("Символ\t№" + ++i);
+        System.out.println("Символ\b№" + ++i);
+        System.out.println("Символ\n№" + ++i);
+        System.out.println("Символ\r№" + ++i);
+        System.out.println("Символ\'№" + ++i);
+        System.out.println("Символ\"№" + ++i);
+        System.out.println("Символ\\№" + ++i);
+    }
+
+    public int substringSearch(String firstString, String secondString) {
+        return firstString.indexOf(secondString);
+    }
+
+    public int substringSearchInTheSecondHalf(String firstString, String secondString) {
+        return firstString.indexOf(secondString, firstString.length() / 2);
+    }
+
+    public int lastIndexOfSubstringInStringInFirstHalf(String firstString, String secondString) {
+        return firstString.lastIndexOf(secondString, (firstString.length() / 2) + 1);
+    }
+
+    public int getNumberOfLinesWithSpecifiedStartAndEnd(String[] arrayString, String prefix, String postfix) {
+        int count = 0;
+        for (String string : arrayString) {
+            if (string.startsWith(prefix) && string.endsWith(postfix)) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
