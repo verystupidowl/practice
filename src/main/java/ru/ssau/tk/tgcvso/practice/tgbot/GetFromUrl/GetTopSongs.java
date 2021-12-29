@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class GetTopSongs implements GetFromUrl{
-    private String songName;
+    private final String songName;
 
     public GetTopSongs(String songName) {
         this.songName = songName;
