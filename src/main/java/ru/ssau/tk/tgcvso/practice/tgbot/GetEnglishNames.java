@@ -26,6 +26,10 @@ public class GetEnglishNames {
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-        return stringBuilder.toString();
+        String returnString = stringBuilder.toString();
+        while (returnString.contains("  ")) {
+            returnString = returnString.replace("  ", " ");
+        }
+        return returnString;
     }
 }

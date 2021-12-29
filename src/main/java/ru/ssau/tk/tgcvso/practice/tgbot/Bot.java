@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Locale;
 
@@ -217,8 +218,8 @@ public class Bot extends TelegramLongPollingBot {
                         GetLyrics getLyrics = new GetLyrics(message);
                         String text = getLyrics.getFromURL().get(0);
                         LogsProcessing.logsProcessing(userId, message);
-                        if (text.length() > 4000 && text.length() < 8000) {     //checking for count of symbols
-                            String newText = text.substring(0, 4000);           //splitting
+                        if (text.length() > 4000 && text.length() < 8000) {
+                            String newText = text.substring(0, 4000);
                             String newText2 = text.substring(4000);
                             SendMessage sendMessage1 = new SendMessage();
                             sendMessage.setText(newText);
@@ -226,7 +227,8 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage.setChatId(chatId);
                             sendMessage1.setChatId(chatId);
                             SendMessage sendMessage2 = KeyboardInline.sendInlineKeyboardAboutSong(chatId, message, newText2);
-                            Keyboard.setArtistButtons(sendMessage1, message);
+                            Keyboard.setArtistButtons(sendMessage, message);
+                            System.out.println(sendMessage1.getText());
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {
@@ -237,13 +239,13 @@ public class Bot extends TelegramLongPollingBot {
                             } catch (TelegramApiException e) {
                                 e.printStackTrace();
                             }
-                        } else if (text.length() > 8000) {                  //splitting if needed
+                        } else if (text.length() > 8000) {
                             String newText = text.substring(0, 4000);
                             String newText2 = text.substring(4000, 8000);
                             String newText3 = text.substring(8000);
                             SendMessage sendMessage1 = new SendMessage();
                             SendMessage sendMessage2 = new SendMessage();
-                            sendMessage.setText(newText);                   //creating 3 SendMessage objects
+                            sendMessage.setText(newText);
                             sendMessage1.setText(newText2);
                             sendMessage2.setText(newText3);
                             sendMessage.setChatId(chatId);
