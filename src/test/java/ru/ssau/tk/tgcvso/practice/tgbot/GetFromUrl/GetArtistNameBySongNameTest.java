@@ -7,12 +7,12 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class OtherSongsTest {
+public class GetArtistNameBySongNameTest {
 
     @Test
     public void testGetFromURL() {
-        OtherSongs otherSongs = new OtherSongs("metallica enter sandman");
-        List<String> stringList = otherSongs.getFromURL();
+        GetArtistNameBySongName getArtistNameBySongName = new GetArtistNameBySongName("metallica enter sandman");
+        List<String> stringList = getArtistNameBySongName.getFromURL();
         List<String> knownList = new ArrayList<>();
         knownList.add("METALLICA*");
         assertEquals(stringList.get(0).trim(), knownList.get(0).trim());

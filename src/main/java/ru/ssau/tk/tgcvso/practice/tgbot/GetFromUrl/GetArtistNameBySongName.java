@@ -14,11 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class OtherSongs implements GetFromUrl {
+public class GetArtistNameBySongName implements GetFromUrl {
     private final String songName;
 
-    public OtherSongs(String songName) {
+    public GetArtistNameBySongName(String songName) {
         this.songName = songName;
+    }
+
+
+    @Override
+    public Document getConnection(String url) throws IOException {
+        return Jsoup.connect(url)
+                .userAgent("Chrome/81.0.4044.138")
+                .referrer("http://www.google.com")
+                .get();
     }
 
     @Override
@@ -26,12 +35,10 @@ public class OtherSongs implements GetFromUrl {
         String text = "Изображение не найдено";
         List<String> stringList = new ArrayList<>();
         List<String> returnList = new ArrayList<>();
+        String url = "https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/";
         try {
             while (text.equals("Изображение не найдено")) {
-                Document doc = Jsoup.connect("https://genius.com/" + songName.replace(' ', '-').toLowerCase(Locale.ROOT) + "-lyrics/")
-                        .userAgent("Chrome/81.0.4044.138")
-                        .referrer("http://www.google.com")
-                        .get();
+                Document doc = getConnection(url);
                 Elements pics = doc.select("a");
                 for (Element element1 : pics) {
                     text = element1.text(); //7
@@ -51,4 +58,5 @@ public class OtherSongs implements GetFromUrl {
         returnList.add(GetEnglishNames.getEnglishNames(stringList.get(7).toLowerCase(Locale.ROOT)).toUpperCase(Locale.ROOT) + "*");
         return returnList;
     }
+
 }

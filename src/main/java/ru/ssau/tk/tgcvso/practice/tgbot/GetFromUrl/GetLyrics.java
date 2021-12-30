@@ -21,6 +21,16 @@ public class GetLyrics implements GetFromUrl {
     }
 
     @Override
+    public Document getConnection(String url) throws IOException {
+        int TIMEOUT = 1000;
+        return Jsoup.connect(url)
+                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
+                .referrer("https://genius.com/")
+                .timeout(5* TIMEOUT)
+                .get();
+    }
+
+    @Override
     public List<String> getFromURL() {
         List<String> stringList = new ArrayList<>();
         String text = Consts.DEFAULT_TEXT;
@@ -30,39 +40,20 @@ public class GetLyrics implements GetFromUrl {
         String url = "https://genius.com/" + songName.replace(' ', '-').replaceAll("\\.", "").toLowerCase(Locale.ROOT) + "-lyrics/";
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                /*final WebClient webClient = new WebClient(BrowserVersion.CHROME);
-                webClient.getOptions().setJavaScriptEnabled(false);
-                webClient.getOptions().setCssEnabled(false);
-                webClient.getOptions().setThrowExceptionOnScriptError(true);
-                webClient.getOptions().setThrowExceptionOnFailingStatusCode(true);
-                HtmlPage page = webClient.getPage(url);
-                webClient.waitForBackgroundJavaScript(3 * TIMEOUT);*/
-                //System.out.println(page.asXml());
-                int TIMEOUT = 1000;
-                Document document = Jsoup.connect(url)
-                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
-                        .referrer("https://genius.com/")
-                        .timeout(5 * TIMEOUT)
-                        .get();
-                Elements lyrics = document.getElementsByAttributeValue("class", "Lyrics__Container-sc-1ynbvzw-6 lgZgEN");                                  //opening a certain class with lyrics in HTML code
-                Elements pic = document.getElementsByTag("meta");                          //opening a certain class with album artworks in HTML code
+                Document document = getConnection(url);
+                Elements lyrics = document.getElementsByAttributeValue("class", "Lyrics__Container-sc-1ynbvzw-6 lgZgEN");
+                Elements pic = document.getElementsByTag("meta");
                 for (Element element1 : pic) {
-                    //src = element1.attr("content");
                     src = element1.toString();
                     stringList.add(src);
                 }
-                text = lyrics.toString();                                                                           //assigning the entire code in the class to the variable text
-                text = cleanHTMLCode(text);                                                                         //cleaning text from HTML marks
-                /*for (String s : stringList) {
-                    System.out.println(s);
-                }*/
+                text = cleanHTMLCode(lyrics.toString());
                 for (String s : stringList) {
                     if (s.contains("property=\"og:image\"")) {
                         src = s.replaceAll("<meta content=\"", "").replaceAll("\" property=\"og:image\">", "");
                     }
-                    //System.out.println(text + src);
                 }
-                i++;                                                                                                    //a count of attempts
+                i++;
             }
             LogsProcessing.logsProcessing("Успешно", i);
         } catch (HttpStatusException e) {
@@ -78,4 +69,5 @@ public class GetLyrics implements GetFromUrl {
         stringList1.add((text + "\n\n" + src).trim());
         return stringList1;
     }
+
 }

@@ -165,8 +165,8 @@ public class Bot extends TelegramLongPollingBot {
                         }
                     } else if (message.indexOf('*') != -1) {
                         StringBuilder stringBuilder = new StringBuilder();
-                        GetTopSongs getTopSongs = new GetTopSongs(message.toLowerCase(Locale.ROOT));
-                        String text = getTopSongs.getFromURL().get(0);
+                        GetTopSongsByArtistName getTopSongsByArtistName = new GetTopSongsByArtistName(message.toLowerCase(Locale.ROOT));
+                        String text = getTopSongsByArtistName.getFromURL().get(0);
                         if (text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {
                             sendMessage.setText(text);
                             try {
@@ -226,7 +226,6 @@ public class Bot extends TelegramLongPollingBot {
                             sendMessage1.setChatId(chatId);
                             SendMessage sendMessage2 = KeyboardInline.sendInlineKeyboardAboutSong(chatId, message, newText2);
                             Keyboard.setArtistButtons(sendMessage, message);
-                            System.out.println(sendMessage1.getText());
                             try {
                                 execute(sendMessage);
                             } catch (TelegramApiException e) {

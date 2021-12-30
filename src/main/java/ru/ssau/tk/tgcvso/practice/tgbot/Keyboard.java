@@ -5,8 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.ssau.tk.tgcvso.practice.tgbot.DataBase.DataBase;
-import ru.ssau.tk.tgcvso.practice.tgbot.GetFromUrl.OtherSongs;
+import ru.ssau.tk.tgcvso.practice.tgbot.GetFromUrl.GetArtistNameBySongName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +14,8 @@ import java.util.Locale;
 public class Keyboard {
     public synchronized static void setArtistButtons(SendMessage sendMessage, String message) {
 
-        OtherSongs otherSongs = new OtherSongs(message);
-        String text = otherSongs.getFromURL().get(0);
+        GetArtistNameBySongName getArtistNameBySongName = new GetArtistNameBySongName(message);
+        String text = getArtistNameBySongName.getFromURL().get(0);
         if (!text.equals(Consts.DEFAULT_TEXT) && !text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {                                                                        //checking for existence song
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                        //creating a keyboard
             sendMessage.setReplyMarkup(replyKeyboardMarkup);                                                            //creating a replyMarkup

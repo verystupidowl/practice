@@ -14,13 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class GetTopSongs implements GetFromUrl {
+public class GetTopSongsByArtistName implements GetFromUrl {
     private final String songName;
 
-    public GetTopSongs(String songName) {
+    public GetTopSongsByArtistName(String songName) {
         this.songName = songName;
     }
 
+    @Override
+    public Document getConnection(String url) throws IOException {
+        return Jsoup.connect(url)
+                .userAgent("Chrome/81.0.4044.138")
+                .referrer("http://www.google.com")
+                .get();
+    }
 
     @Override
     public List<String> getFromURL() {
@@ -30,14 +37,15 @@ public class GetTopSongs implements GetFromUrl {
         int i = 1;
         int k = 0;
         int j = 0;
+        String url = "https://genius.com/artists/" + songName.toLowerCase(Locale.ROOT).
+                replace('*', ' ').replaceAll(" ", "").
+                replaceAll("\\.", "");
+
         StringBuilder stringBuilder = new StringBuilder();
         List<Integer> blackList = new ArrayList<>();
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
-                Document doc = Jsoup.connect("https://genius.com/artists/" + songName.toLowerCase(Locale.ROOT).replace('*', ' ').replaceAll(" ", "").replaceAll("\\.", ""))
-                        .userAgent("Chrome/81.0.4044.138")
-                        .referrer("http://www.google.com")
-                        .get();
+                Document doc = getConnection(url);
                 Elements artist = doc.getElementsByAttributeValue("class", "mini_card-subtitle");
                 Elements lyrics = doc.getElementsByAttributeValue("class", "mini_card-title");
                 for (Element element1 : artist) {
@@ -77,4 +85,5 @@ public class GetTopSongs implements GetFromUrl {
         returnList.add(GetEnglishNames.getEnglishNames(stringBuilder.toString().toLowerCase(Locale.ROOT)));
         return returnList;
     }
+
 }

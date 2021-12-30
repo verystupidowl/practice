@@ -23,6 +23,15 @@ public class GetInfoAboutSong implements GetFromUrl {
 
 
     @Override
+    public Document getConnection(String url) throws IOException {
+        return Jsoup.connect(url)
+                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
+                .referrer("https://genius.com/")
+                .timeout(5 * TIMEOUT)
+                .get();
+    }
+
+    @Override
     public List<String> getFromURL() {
         String info = "Не найдено";
         List<String> returnList = new ArrayList<>();
@@ -30,11 +39,7 @@ public class GetInfoAboutSong implements GetFromUrl {
         String url = "https://genius.com/" + songName.replace(' ', '-').replaceAll("\\.", "").toLowerCase(Locale.ROOT) + "-lyrics/";
         while (info.equals("Не найдено")) {
             try {
-                Document document = Jsoup.connect(url)
-                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
-                        .referrer("https://genius.com/")
-                        .timeout(5 * TIMEOUT)
-                        .get();
+                Document document = getConnection(url);
                 Elements infos = document.getElementsByAttributeValue("class", "ExpandableContent__Container-sc-1165iv-0 ikywhQ SongDescription__ExpandableContent-sc-615rvk-3 eahHPb");
                 for (Element element : infos) {
                     info = cleanHTMLCode(element.toString()).trim();
@@ -58,4 +63,5 @@ public class GetInfoAboutSong implements GetFromUrl {
         returnList.add(info.substring(0, info.length() - 6));
         return returnList;
     }
+
 }

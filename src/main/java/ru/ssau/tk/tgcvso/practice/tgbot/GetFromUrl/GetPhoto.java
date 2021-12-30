@@ -19,22 +19,25 @@ public class GetPhoto implements GetFromUrl {
     }
 
     @Override
+    public Document getConnection(String url) throws IOException {
+        return Jsoup.connect(url)
+                .userAgent("Chrome/81.0.4044.138")
+                .referrer("http://www.google.com")
+                .get();
+    }
+
+    @Override
     public List<String> getFromURL() {
         String src = "Изображение не найдено";
         List<String> stringList = new ArrayList<>();
         List<String> returnList = new ArrayList<>();
         int i = 0;
+        String url = "https://genius.com/artists/" + songName.replace('*', ' ').trim().toLowerCase(Locale.ROOT).replaceAll(" ", "- ");
         try {
-            while (src.equals("Изображение не найдено")) {              //sending requests until it is successful
-                Document doc = Jsoup.connect("https://genius.com/artists/" + songName.replace('*', ' ').trim().toLowerCase(Locale.ROOT).replaceAll(" ", "- "))     //connecting to the website
-                        .userAgent("Chrome/81.0.4044.138")
-                        .referrer("http://www.google.com")
-                        .get();
-                //Elements pic = doc.getElementsByAttributeValue("class", "profile_header");                              //opening a certain class in HTML code
+            while (src.equals("Изображение не найдено")) {
+                Document doc = getConnection(url);
                 Elements pic = doc.getElementsByTag("meta");
                 for (Element element1 : pic) {
-                    //src = element1.select("div[style]").first().attr("style");
-                    //src = src.substring(23).replaceAll("\'\\);", "");
                     src = element1.toString();
                     stringList.add(src);
                 }
@@ -56,4 +59,5 @@ public class GetPhoto implements GetFromUrl {
         returnList.add(src);
         return returnList;
     }
+
 }

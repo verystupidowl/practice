@@ -7,16 +7,16 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class GetTopSongsTest {
+public class GetTopSongsByArtistNameTest {
 
     @Test
     public void testGetFromURL() {
-        GetTopSongs getTopSongs = new GetTopSongs("pyrokinesis");
-        GetTopSongs getTopSongs1 = new GetTopSongs("Metro Boomin");
-        List<String> stringList1 = getTopSongs1.getFromURL();
+        GetTopSongsByArtistName getTopSongsByArtistName = new GetTopSongsByArtistName("pyrokinesis");
+        GetTopSongsByArtistName getTopSongsByArtistName1 = new GetTopSongsByArtistName("Metro Boomin");
+        List<String> stringList1 = getTopSongsByArtistName1.getFromURL();
         List<String> knownList1 = new ArrayList<>();
         knownList1.add("К сожалению, у этого исполнителя нет собственных популярных песен\uD83D\uDE22Попробуйте другого или введите название определенной песни");
-        List<String> stringList = getTopSongs.getFromURL();
+        List<String> stringList = getTopSongsByArtistName.getFromURL();
         List<String> knownList = new ArrayList<>();
         knownList.add("rainbow colors\n" +
                 " cigarette without button\n" +
