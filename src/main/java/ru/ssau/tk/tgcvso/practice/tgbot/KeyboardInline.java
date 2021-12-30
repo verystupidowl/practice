@@ -56,8 +56,7 @@ public class KeyboardInline {
             String info = "/" + message.replaceAll(" ", "_");
             if (info.length() < 60) {
                 button1.setCallbackData(info);
-            }
-            else{
+            } else {
                 button1.setCallbackData("Не найдено");
             }
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GetTopChart implements GetFromUrl{
+public class GetTopChart implements GetFromUrl {
     @Override
     public List<String> getFromURL() {
         String track;

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class GetPhoto implements GetFromUrl {
-    private String songName;
+    private final String songName;
 
     public GetPhoto(String songName) {
         this.songName = songName;
@@ -24,10 +24,9 @@ public class GetPhoto implements GetFromUrl {
         List<String> stringList = new ArrayList<>();
         List<String> returnList = new ArrayList<>();
         int i = 0;
-        songName = songName.replace('*', ' ').trim();   //removing character *
         try {
             while (src.equals("Изображение не найдено")) {              //sending requests until it is successful
-                Document doc = Jsoup.connect("https://genius.com/artists/" + songName.toLowerCase(Locale.ROOT).replaceAll(" ", "- "))     //connecting to the website
+                Document doc = Jsoup.connect("https://genius.com/artists/" + songName.replace('*', ' ').trim().toLowerCase(Locale.ROOT).replaceAll(" ", "- "))     //connecting to the website
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();

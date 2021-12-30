@@ -118,7 +118,7 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage.setChatId(chatId);
                     GetTopChart getTopChart = new GetTopChart();
                     List<String> list = getTopChart.getFromURL();
-                    if(!list.isEmpty()) {
+                    if (!list.isEmpty()) {
                         sendMessage.setText("Топ - чарт на сегодня:");
                         Keyboard.setChartButtons(sendMessage, list);
                         try {
@@ -126,8 +126,7 @@ public class Bot extends TelegramLongPollingBot {
                         } catch (TelegramApiException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
+                    } else {
                         sendMessage.setText(Consts.SERVER_IS_NOT_RESPONDING);
                         try {
                             execute(sendMessage);

@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class GetInfoAboutSong implements GetFromUrl{
+public class GetInfoAboutSong implements GetFromUrl {
     private static final int TIMEOUT = 1000;
     private final String songName;
 
-    public GetInfoAboutSong (String songName) {
+    public GetInfoAboutSong(String songName) {
         this.songName = songName;
     }
 

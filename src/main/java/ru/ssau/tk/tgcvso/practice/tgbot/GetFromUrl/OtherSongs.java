@@ -14,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class OtherSongs implements GetFromUrl{
+public class OtherSongs implements GetFromUrl {
     private final String songName;
 
-    public OtherSongs (String songName) {
+    public OtherSongs(String songName) {
         this.songName = songName;
     }
+
     @Override
     public List<String> getFromURL() {
         String text = "Изображение не найдено";
@@ -31,7 +32,6 @@ public class OtherSongs implements GetFromUrl{
                         .userAgent("Chrome/81.0.4044.138")
                         .referrer("http://www.google.com")
                         .get();
-                //Elements pic = doc.getElementsByAttributeValue("class", "SongHeaderVariantdesktop__Title-sc-12tszai-7 iWUdKG");
                 Elements pics = doc.select("a");
                 for (Element element1 : pics) {
                     text = element1.text(); //7
