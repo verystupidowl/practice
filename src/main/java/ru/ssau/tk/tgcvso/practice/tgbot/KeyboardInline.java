@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KeyboardInline {
-    public static SendMessage sendInlineKeyBoardMessage(String chatId) {                                                //method for creating an inline keyboard
+    public static SendMessage sendInlineKeyBoardMessage(String chatId) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
 
-        InlineKeyboardButton button1 = new InlineKeyboardButton();                                                      //creating a button
+        InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Да");
-        button1.setCallbackData(Consts.POSITIVE_ANSWER);                                                                //setting data
+        button1.setCallbackData(Consts.POSITIVE_ANSWER);
 
         InlineKeyboardButton button2 = new InlineKeyboardButton();
         button2.setText("Нет");
@@ -51,7 +51,7 @@ public class KeyboardInline {
             List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
 
-            InlineKeyboardButton button1 = new InlineKeyboardButton();                                                      //creating a button
+            InlineKeyboardButton button1 = new InlineKeyboardButton();
             button1.setText("О песне(Нажмите на сообщение)");
             String info = "/" + message.replaceAll(" ", "_");
             if (info.length() < 60) {

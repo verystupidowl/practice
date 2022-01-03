@@ -14,12 +14,12 @@ public interface GetFromUrl {
     Document getConnection(String url) throws IOException;
 
     default String cleanHTMLCode(String bodyHtml) {
-        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));//removing all HTML tags except <br> and <p>
+        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));
         prettyPrintedBodyFragment = prettyPrintedBodyFragment
                 .replaceAll("<p>", "")
                 .replaceAll("&amp;", "&")
                 .replaceAll("</p>", "")
-                .replaceAll("<br>", "\n")                                                               //replacing remaining tags
+                .replaceAll("<br>", "\n")
                 .replaceAll("\n\n", "\n");
         return prettyPrintedBodyFragment;
     }

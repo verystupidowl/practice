@@ -25,16 +25,16 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText().trim();                  //message from user
-            String chatId = update.getMessage().getChatId().toString();             //chat ID
-            String userFirstName = update.getMessage().getChat().getFirstName();    //username
-            String userId = update.getMessage().getChat().getUserName();            //user ID
+            String message = update.getMessage().getText().trim();
+            String chatId = update.getMessage().getChatId().toString();
+            String userFirstName = update.getMessage().getChat().getFirstName();
+            String userId = update.getMessage().getChat().getUserName();
             UserName userName = new UserName(userId, userFirstName);
             Request request = new Request(message, userName);
             switch (message) {
                 case "Привет": {
-                    SendMessage sendMessage = new SendMessage();                    //create an object of SendMessage
-                    sendMessage.setChatId(chatId);                                  //set chat ID
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setChatId(chatId);
                     sendMessage.setText("Ну привет, " + userFirstName + "\uD83D\uDC4B\uD83C\uDFFB"); //set text
                     try {
                         execute(sendMessage);
@@ -64,7 +64,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.RULES);
-                    Keyboard.setRulesButtons(sendMessage);                            //creating keyboard with 1 button "Вернуться в меню"
+                    Keyboard.setRulesButtons(sendMessage);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -76,7 +76,7 @@ public class Bot extends TelegramLongPollingBot {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.HELP);
-                    Keyboard.setRulesButtons(sendMessage);                             //creating keyboard with 1 button "Вернуться в меню"
+                    Keyboard.setRulesButtons(sendMessage);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {
@@ -96,7 +96,7 @@ public class Bot extends TelegramLongPollingBot {
                     } catch (TelegramApiException e) {
                         e.printStackTrace();
                     }
-                    LogsProcessing.logsProcessing(userId, message);                     //writing to logs
+                    LogsProcessing.logsProcessing(userId, message);
                     break;
                 }
                 case "Найти текст песни\uD83D\uDD0E": {
@@ -104,7 +104,7 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage.enableMarkdown(true);
                     sendMessage.setChatId(chatId);
                     sendMessage.setText(Consts.SONG_EXAMPLE);
-                    Keyboard.setRulesButtons(sendMessage);                              //creating keyboard with 1 button "Вернуться в меню"
+                    Keyboard.setRulesButtons(sendMessage);
                     try {
                         execute(sendMessage);
                     } catch (TelegramApiException e) {

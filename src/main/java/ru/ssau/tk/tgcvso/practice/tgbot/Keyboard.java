@@ -16,18 +16,18 @@ public class Keyboard {
 
         GetArtistNameBySongName getArtistNameBySongName = new GetArtistNameBySongName(message);
         String text = getArtistNameBySongName.getFromURL().get(0);
-        if (!text.equals(Consts.DEFAULT_TEXT) && !text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {                                                                        //checking for existence song
-            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                        //creating a keyboard
-            sendMessage.setReplyMarkup(replyKeyboardMarkup);                                                            //creating a replyMarkup
+        if (!text.equals(Consts.DEFAULT_TEXT) && !text.equals(Consts.SERVER_IS_NOT_RESPONDING)) {
+            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+            sendMessage.setReplyMarkup(replyKeyboardMarkup);
             replyKeyboardMarkup.setSelective(true);
             replyKeyboardMarkup.setResizeKeyboard(true);
             replyKeyboardMarkup.setOneTimeKeyboard(false);
-            List<KeyboardRow> keyboard = new ArrayList<>();                                                             //creating a list of keyboard rows
-            KeyboardRow keyboardRow = new KeyboardRow();                                                                //creating a keyboard row
-            keyboardRow.add(new KeyboardButton("Вернуться в меню"));                                               //creating and adding a keyboard button
+            List<KeyboardRow> keyboard = new ArrayList<>();
+            KeyboardRow keyboardRow = new KeyboardRow();
+            keyboardRow.add(new KeyboardButton("Вернуться в меню"));
             KeyboardRow keyboardRow1 = new KeyboardRow();
             keyboardRow1.add(new KeyboardButton(text));
-            keyboard.add(keyboardRow1);                                                                                 //adding keyboard rows to a list
+            keyboard.add(keyboardRow1);
             keyboard.add(keyboardRow);
             replyKeyboardMarkup.setKeyboard(keyboard);
         }
@@ -83,12 +83,12 @@ public class Keyboard {
     }
 
     public synchronized static void setSongsButtons(SendMessage sendMessage, SendPhoto sendPhoto) {
-        String[] string = new String[4];                                                                                //creating an array of strings
+        String[] string = new String[4];
         int j = 0;
         int k = 0;
         String text = sendMessage.getText().replace('*', '\n');
         char[] c = text.toCharArray();
-        StringBuilder stringBuilder = new StringBuilder();                                                              //splitting the songs into arrays
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             j += k;
             stringBuilder.setLength(0);
@@ -100,7 +100,7 @@ public class Keyboard {
             string[i] = stringBuilder.toString().trim();
         }
         stringBuilder.setLength(0);
-        if (!string[1].isEmpty()) {                                                                                     //checking whether array is empty
+        if (!string[1].isEmpty()) {
             stringBuilder.insert(0, string[0].toUpperCase(Locale.ROOT))
                     .insert(stringBuilder.length(), ' ')
                     .insert(stringBuilder.length(), string[1]);
@@ -120,7 +120,7 @@ public class Keyboard {
                 }
             }
         }
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();                                            //creating a keyboard and adding arrays there
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendPhoto.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -155,7 +155,7 @@ public class Keyboard {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        String chart1 = list.get(0);                                                                                    //assign the value of each list item to a variable
+        String chart1 = list.get(0);
         chart1 = chart1.trim().substring(19, chart1.length() - 6).replace('-', ' ');
         String chart2 = list.get(2);
 
@@ -163,7 +163,7 @@ public class Keyboard {
         String chart3 = list.get(4);
 
         chart3 = chart3.trim().substring(19, chart3.length() - 6).replace('-', ' ');
-        keyboardFirstRow.add(new KeyboardButton(chart1));                                                               //creating a keyboard and adding variables there
+        keyboardFirstRow.add(new KeyboardButton(chart1));
         keyboard.add(keyboardFirstRow);
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add(new KeyboardButton(chart2));

@@ -26,7 +26,7 @@ public class GetLyrics implements GetFromUrl {
         return Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 YaBrowser/21.11.2.773 Yowser/2.5 Safari/537.36")
                 .referrer("https://genius.com/")
-                .timeout(5* TIMEOUT)
+                .timeout(5 * TIMEOUT)
                 .get();
     }
 
