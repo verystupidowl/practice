@@ -41,7 +41,7 @@ public class GetLyrics implements GetFromUrl {
         try {
             while (text.equals(Consts.DEFAULT_TEXT)) {
                 Document document = getConnection(url);
-                Elements lyrics = document.getElementsByAttributeValue("class", "Lyrics__Container-sc-1ynbvzw-6 lgZgEN");
+                Elements lyrics = document.getElementsByAttributeValue("id", "lyrics-root-pin-spacer");
                 Elements pic = document.getElementsByTag("meta");
                 for (Element element1 : pic) {
                     src = element1.toString();
